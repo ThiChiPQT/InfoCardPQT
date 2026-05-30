@@ -34,14 +34,14 @@ html,body{height:100%;overflow:hidden;background:#0d0b20}
 .blob{position:fixed;border-radius:50%;pointer-events:none;z-index:0;animation:blobMove 9s ease-in-out infinite}
 .blob1{width:280px;height:280px;background:radial-gradient(circle,rgba(247,151,30,0.13),transparent 70%);top:-60px;right:-60px}
 .blob2{width:220px;height:220px;background:radial-gradient(circle,rgba(96,165,250,0.10),transparent 70%);bottom:100px;left:-50px;animation-direction:reverse;animation-duration:12s}
-#topbar{position:sticky;top:0;z-index:50;background:var(--topbar);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--border);padding:env(safe-area-inset-top,44px) 14px 11px;display:flex;align-items:center;gap:9px}
+#topbar{position:sticky;top:0;z-index:50;background:var(--topbar);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--border);padding:env(safe-area-inset-top,44px) 14px 11px;display:flex;align-items:center;gap:8px}
 #topbar-title{flex:1;font-weight:800;font-size:17px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .screen{padding:12px 14px 80px;position:relative;z-index:1;animation:fadeUp .25s ease}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:14px;margin-bottom:11px;transition:transform .15s}
 .card.clickable{cursor:pointer}.card.clickable:active{transform:scale(.985)}
 .card.done{background:rgba(74,222,128,0.08);border-color:rgba(74,222,128,0.25)}
-.ib{width:36px;height:36px;border-radius:11px;border:none;background:var(--input);color:var(--text);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ib:active{opacity:.65}
+.ib{width:36px;height:36px;border-radius:11px;border:none;background:var(--input);color:var(--text);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s}
+.ib:active{opacity:.6}
 .pill{display:inline-flex;align-items:center;gap:4px;padding:6px 11px;border-radius:10px;border:1px solid var(--border);background:var(--input);color:var(--text);font-size:12px;font-weight:700;cursor:pointer}
 .pill:active{opacity:.7}
 .prog-track{background:var(--pbg);border-radius:99px;height:5px;overflow:hidden}
@@ -76,41 +76,44 @@ html,body{height:100%;overflow:hidden;background:#0d0b20}
 .swatch.sel{border-color:#fff;transform:scale(1.18)}
 #login{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:0 28px;position:relative;z-index:1}
 .login-logo{width:66px;height:66px;background:linear-gradient(135deg,var(--orange),var(--gold));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 28px rgba(247,151,30,.35);margin:0 auto 12px}
-.pin-dots{display:flex;justify-content:center;gap:14px;margin-bottom:24px}
+.pin-dots{display:flex;justify-content:center;gap:16px;margin-bottom:24px}
 .pin-dot{width:14px;height:14px;border-radius:50%;background:var(--input);border:1.5px solid var(--border);transition:background .15s}
 .pin-dot.filled{background:var(--gold);border-color:var(--gold)}
 .pin-dot.err{border-color:var(--red)}
-.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:10px;width:100%}
-.key{padding:16px 0;border-radius:13px;border:none;cursor:pointer;background:var(--input);color:var(--text);font-size:22px;font-weight:700;font-family:var(--font);transition:opacity .12s}
-.key:active{opacity:.55}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;width:100%}
+.key{padding:16px 0;border-radius:14px;border:none;cursor:pointer;background:var(--input);color:var(--text);font-size:22px;font-weight:700;font-family:var(--font);transition:opacity .12s}
+.key:active{opacity:.5}
 .key.dim{background:rgba(128,128,128,0.1);color:var(--text2)}
 .login-btn{width:100%;padding:14px 0;border-radius:15px;border:none;background:var(--input);color:var(--text3);font-weight:800;font-size:15px;cursor:default;transition:all .2s;font-family:var(--font)}
 .login-btn.ready{background:linear-gradient(90deg,var(--orange),var(--gold));color:#1a1a2e;cursor:pointer}
 .err-msg{color:var(--red);font-size:12px;text-align:center;margin:-14px 0 12px;font-weight:600;min-height:18px}
 #toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);padding:10px 22px;border-radius:30px;font-weight:700;font-size:14px;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.25);animation:fadeUp .2s ease;white-space:nowrap;display:none;font-family:var(--font)}
+#sync-indicator{position:fixed;top:10px;right:10px;z-index:300;font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;display:none;font-family:var(--font)}
 .empty{text-align:center;padding:44px 20px;color:var(--text2)}
 .empty-icon{font-size:38px;margin-bottom:10px}
 .row{display:flex;align-items:center;gap:9px}
 .fee-preview{font-weight:800;font-size:18px;color:var(--red)}
 .del-btn{width:100%;padding:11px;border-radius:12px;border:1px solid rgba(248,113,113,.3);background:rgba(248,113,113,.1);color:var(--red);font-weight:700;cursor:pointer;font-size:13px;margin-bottom:8px;font-family:var(--font)}
-.del-btn:active{opacity:.7}
 .confirm-row{display:flex;gap:10px;margin-top:4px}
 .btn-cancel{flex:1;padding:12px 0;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--text);font-weight:700;cursor:pointer;font-family:var(--font)}
 .btn-danger{flex:2;padding:12px 0;border-radius:12px;border:none;background:var(--red);color:#fff;font-weight:800;cursor:pointer;font-family:var(--font)}
 .btn-ok{flex:2;padding:12px 0;border-radius:14px;border:none;background:linear-gradient(90deg,var(--orange),var(--gold));color:#1a1a2e;font-weight:800;cursor:pointer;font-family:var(--font)}
 .stats-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)}
-/* CHANGE PASS PIN UI */
-.cp-dots{display:flex;justify-content:center;gap:14px;margin:16px 0 8px}
+.cp-dots{display:flex;justify-content:center;gap:16px;margin:16px 0 8px}
 .cp-dot{width:13px;height:13px;border-radius:50%;background:var(--input);border:1.5px solid var(--border);transition:background .15s}
-.cp-dot.filled{border-color:var(--gold)}
-.cp-dot.filled-new{background:var(--blue);border-color:var(--blue)}
-.cp-dot.filled-ok{background:var(--green);border-color:var(--green)}
+.cp-dot.old{background:var(--gold);border-color:var(--gold)}
+.cp-dot.new{background:var(--blue);border-color:var(--blue)}
+.cp-dot.ok{background:var(--green);border-color:var(--green)}
 .cp-dot.err{border-color:var(--red)}
 .cp-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
 .cp-key{padding:13px 0;border-radius:12px;border:none;cursor:pointer;background:var(--input);color:var(--text);font-size:20px;font-weight:700;font-family:var(--font)}
 .cp-key:active{opacity:.55}
 .cp-key.dim{background:rgba(128,128,128,0.1);color:var(--text2)}
-.step-label{font-size:13px;color:var(--text2);text-align:center;margin-bottom:4px;font-weight:600}
+.step-label{font-size:13px;color:var(--text2);text-align:center;font-weight:600}
+/* loading screen */
+#loading{position:fixed;inset:0;background:#0d0b20;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:500;gap:14px}
+.spin{width:36px;height:36px;border:3px solid rgba(255,210,0,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 @keyframes blobMove{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,-20px) scale(1.05)}}
 @keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
@@ -118,7 +121,15 @@ html,body{height:100%;overflow:hidden;background:#0d0b20}
 </style>
 </head>
 <body>
-<div id="app">
+
+<!-- LOADING -->
+<div id="loading">
+  <div style="width:62px;height:62px;background:linear-gradient(135deg,#f7971e,#ffd200);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 8px 28px rgba(247,151,30,.35)">💳</div>
+  <div class="spin"></div>
+  <p style="color:rgba(255,255,255,.4);font-size:13px;font-family:'Be Vietnam Pro',sans-serif">Đang kết nối...</p>
+</div>
+
+<div id="app" style="display:none">
   <div class="blob blob1"></div>
   <div class="blob blob2"></div>
 
@@ -126,9 +137,9 @@ html,body{height:100%;overflow:hidden;background:#0d0b20}
     <button class="ib" id="btn-back" style="display:none;font-size:22px;font-weight:700">‹</button>
     <span id="topbar-title">Manager Card 💳</span>
     <button class="ib" id="btn-add" style="background:rgba(247,151,30,.2);color:var(--gold);font-weight:800;font-size:18px">👤</button>
-    <button class="ib" id="btn-theme">🌙</button>
-    <button class="ib" id="btn-refresh">🔄</button>
-    <button class="ib" id="btn-menu">⋯</button>
+    <button class="ib" id="btn-theme" title="Sáng/Tối">🌙</button>
+    <button class="ib" id="btn-refresh" title="Làm mới" style="font-size:15px">🔄</button>
+    <button class="ib" id="btn-menu" title="Cài đặt">⋯</button>
   </div>
 
   <div id="login">
@@ -179,11 +190,61 @@ html,body{height:100%;overflow:hidden;background:#0d0b20}
   </div>
 </div>
 
+<div id="sync-indicator"></div>
 <div id="toast"></div>
 
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDDE5duA4VCQOAsIqVsg1uVnMBryn7mXRY",
+  authDomain: "qt-manager-f06bb.firebaseapp.com",
+  databaseURL: "https://qt-manager-f06bb-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "qt-manager-f06bb",
+  storageBucket: "qt-manager-f06bb.firebasestorage.app",
+  messagingSenderId: "243777318601",
+  appId: "1:243777318601:web:a96a3d8a200e5fceece718"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const db    = getDatabase(fbApp);
+const DATA_REF = ref(db, 'qtmc');
+
+// ─── expose to global ───────────────────────────────
+window._fbSave = function(data){
+  const si = document.getElementById('sync-indicator');
+  si.textContent='☁️ Đang lưu...';
+  si.style.cssText='display:block;background:rgba(96,165,250,.85);color:#fff;position:fixed;top:10px;right:10px;z-index:300;font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;font-family:var(--font)';
+  set(DATA_REF, data)
+    .then(()=>{
+      si.textContent='✅ Đã lưu';
+      si.style.background='rgba(74,222,128,.85)';
+      si.style.color='#041a0a';
+      setTimeout(()=>si.style.display='none', 1800);
+    })
+    .catch(()=>{
+      si.textContent='❌ Lỗi lưu';
+      si.style.background='rgba(248,113,113,.85)';
+      setTimeout(()=>si.style.display='none', 2500);
+    });
+};
+
+// ─── load data once on startup ──────────────────────
+onValue(DATA_REF, (snapshot) => {
+  const val = snapshot.val();
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  if(val) window._fbData = val;
+  window._fbReady = true;
+  if(window._onFbReady) window._onFbReady(val);
+}, { onlyOnce: true });
+
+</script>
+
 <script>
-// ═══════════════════════ CONSTANTS & STATE ═══════════════════════
-const SK='qtmc_v4';
+// ═══════════════════════ CONSTANTS ═══════════════════════
 const DEFAULT_PASS='5583';
 const MONTHS=['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'];
 const LOGO_BG={TCB:'#E31837',SCB:'#0066B3',MSB:'#FF6B00',LIO:'#7B2D8B',CAKE:'#FF4785',OCB:'#F7931E',VCB:'#007B40',BIDV:'#1B4798',ACB:'#E60026',MB:'#003087',VPB:'#ED1C24',TPB:'#820024'};
@@ -206,15 +267,30 @@ const DEMO=[
   ]}
 ];
 
-function loadLS(){try{const r=localStorage.getItem(SK);return r?JSON.parse(r):null;}catch{return null;}}
-function saveLS(){try{localStorage.setItem(SK,JSON.stringify(ST));}catch{}}
-const _st=loadLS();
+// ═══════════════════════ STATE ═══════════════════════
 const ST={
-  dark:_st?.dark!==undefined?_st.dark:true,
-  pass:_st?.pass||DEFAULT_PASS,
-  customers:_st?.customers||DEMO,
+  dark:true,
+  pass:DEFAULT_PASS,
+  customers:DEMO,
   screen:'home',selCust:null,selCycle:null
 };
+
+// called when Firebase data loads
+window._onFbReady = function(val){
+  if(val){
+    if(val.dark !== undefined) ST.dark = val.dark;
+    if(val.pass) ST.pass = val.pass;
+    if(val.customers) ST.customers = val.customers;
+  }
+  applyTheme();
+  // show login
+  document.getElementById('login').style.display='flex';
+};
+
+function saveData(){
+  const payload={dark:ST.dark,pass:ST.pass,customers:ST.customers};
+  if(window._fbSave) window._fbSave(payload);
+}
 
 // ═══════════════════════ HELPERS ═══════════════════════
 const fee=(dao,rate)=>Math.round(dao*1e6*(rate/100)/1000)*1000;
@@ -226,6 +302,7 @@ const esc=s=>(s||'').replace(/'/g,"\\'").replace(/"/g,'&quot;');
 function latestCy(c){if(!c.cycles.length)return null;return[...c.cycles].sort((a,b)=>b.year*12+b.month-(a.year*12+a.month))[0];}
 function getCust(){return ST.customers.find(c=>c.id===ST.selCust)||null;}
 function getCycle(){const c=getCust();return c?c.cycles.find(cy=>cy.id===ST.selCycle)||null:null;}
+
 function toast(msg,ok=true){
   const t=document.getElementById('toast');
   t.textContent=msg;t.style.background=ok?'rgba(74,222,128,.96)':'rgba(248,113,113,.96)';
@@ -234,7 +311,8 @@ function toast(msg,ok=true){
 }
 function applyTheme(){
   document.getElementById('app').classList.toggle('light',!ST.dark);
-  document.getElementById('btn-theme').textContent=ST.dark?'☀️':'🌙';
+  const btn=document.getElementById('btn-theme');
+  if(btn)btn.textContent=ST.dark?'☀️':'🌙';
   document.querySelector('meta[name=theme-color]').content=ST.dark?'#0d0b20':'#eef2ff';
 }
 
@@ -246,14 +324,13 @@ function tap(d){
   pin+=d;syncDots();
   document.getElementById('pin-err').textContent='';
   document.getElementById('login-btn').className='login-btn'+(pin.length===PIN_LEN?' ready':'');
-  if(pin.length===PIN_LEN)setTimeout(doLogin,120);
+  if(pin.length===PIN_LEN)setTimeout(doLogin,150);
 }
 function delPin(){pin=pin.slice(0,-1);syncDots();document.getElementById('login-btn').className='login-btn';}
-function syncDots(prefix){
-  const id=prefix||'d';const len=prefix?pin2.length:pin.length;
+function syncDots(){
   for(let i=0;i<PIN_LEN;i++){
-    const el=document.getElementById(id+i);if(!el)continue;
-    el.classList.toggle('filled',i<len);el.classList.remove('err');
+    const el=document.getElementById('d'+i);if(!el)continue;
+    el.classList.toggle('filled',i<pin.length);el.classList.remove('err');
   }
 }
 function doLogin(){
@@ -267,7 +344,7 @@ function doLogin(){
   document.getElementById('login').style.display='none';
   document.getElementById('main').style.display='block';
   document.getElementById('topbar').style.display='flex';
-  applyTheme();goScreen('home');renderHome();
+  goScreen('home');renderHome();
 }
 
 // ═══════════════════════ NAV ═══════════════════════
@@ -294,8 +371,8 @@ document.getElementById('btn-add').onclick=()=>{
   else if(ST.screen==='cust')openCycleModal();
   else openCardModal();
 };
-document.getElementById('btn-theme').onclick=()=>{ST.dark=!ST.dark;saveLS();applyTheme();};
-document.getElementById('btn-refresh').onclick=()=>{if(confirm('Refresh trang?'))location.reload();};
+document.getElementById('btn-theme').onclick=()=>{ST.dark=!ST.dark;saveData();applyTheme();};
+document.getElementById('btn-refresh').onclick=()=>location.reload();
 document.getElementById('btn-menu').onclick=()=>openMenuSheet();
 
 // ═══════════════════════ MENU SHEET ═══════════════════════
@@ -303,73 +380,51 @@ function openMenuSheet(){
   openSheet('⚙️ Cài đặt',`
     <button class="save-btn" style="margin-bottom:10px;background:linear-gradient(90deg,#6366f1,#8b5cf6)" onclick="closeSheet();setTimeout(openChangePass,200)">🔐 Đổi mật khẩu</button>
     <button class="save-btn" style="margin-bottom:10px;background:rgba(248,113,113,.15);color:var(--red);border:1px solid rgba(248,113,113,.3)" onclick="closeSheet();setTimeout(confirmLogout,200)">🚪 Đăng xuất</button>
-    <button class="save-btn" style="background:rgba(128,128,128,.12);color:var(--text2)" onclick="closeSheet()">Huỷ</button>
-  `);
+    <button class="save-btn" style="background:rgba(128,128,128,.12);color:var(--text2)" onclick="closeSheet()">Huỷ</button>`);
 }
 function confirmLogout(){
   openSheet('🚪 Đăng xuất',`
-    <p style="font-size:14px;color:var(--text2);margin-bottom:20px">Xác nhận đăng xuất khỏi app?</p>
-    <div class="confirm-row">
-      <button class="btn-cancel" onclick="closeSheet()">Huỷ</button>
-      <button class="btn-danger" onclick="doLogout()">Đăng xuất</button>
-    </div>`);
+    <p style="font-size:14px;color:var(--text2);margin-bottom:20px">Xác nhận đăng xuất?</p>
+    <div class="confirm-row"><button class="btn-cancel" onclick="closeSheet()">Huỷ</button><button class="btn-danger" onclick="doLogout()">Đăng xuất</button></div>`);
 }
 function doLogout(){
   closeSheet();
   document.getElementById('main').style.display='none';
   document.getElementById('topbar').style.display='none';
   document.getElementById('login').style.display='flex';
-  pin='';syncDots();document.getElementById('login-btn').className='login-btn';
+  pin='';syncDots();
+  document.getElementById('login-btn').className='login-btn';
   document.getElementById('pin-err').textContent='';
 }
 
 // ═══════════════════════ CHANGE PASSWORD ═══════════════════════
-let cpStep=0,cpOld='',cpNew='',cpNew2='',pin2='';
-
-function openChangePass(){
-  cpStep=0;cpOld='';cpNew='';cpNew2='';
-  renderCpSheet();
-  openSheet('🔐 Đổi mật khẩu','');
-  document.getElementById('sheet-body').innerHTML=getCpHtml();
+let cpStep=0,cpOld='',cpNew='',cpNew2='';
+function openChangePass(){cpStep=0;cpOld='';cpNew='';cpNew2='';openSheet('🔐 Đổi mật khẩu','');renderCpSheet();}
+function cpDotHtml(val,cls){
+  return Array.from({length:PIN_LEN}).map((_,i)=>`<div class="cp-dot${i<val.length?' '+cls:''}" ></div>`).join('');
 }
-
-function getCpHtml(){
-  const steps=[
-    {label:'Nhập mật khẩu hiện tại',dotClass:'',val:cpOld},
-    {label:'Nhập mật khẩu mới',dotClass:'filled-new',val:cpNew},
-    {label:'Nhập lại mật khẩu mới',dotClass:'filled-ok',val:cpNew2},
-  ];
-  const s=steps[cpStep];
-  const dots=Array.from({length:PIN_LEN}).map((_,i)=>`<div class="cp-dot ${i<s.val.length?s.dotClass:''}${i<s.val.length?'':''}" id="cp${i}"></div>`).join('');
-  return`
-    <div class="step-label">${s.label}</div>
-    <div class="cp-dots">${dots}</div>
+function renderCpSheet(){
+  const labels=['Nhập mật khẩu hiện tại','Nhập mật khẩu mới (4 số)','Nhập lại mật khẩu mới'];
+  const vals=[cpOld,cpNew,cpNew2];
+  const cls=['old','new','ok'];
+  const el=document.getElementById('sheet-body');
+  el.innerHTML=`
+    <div class="step-label">${labels[cpStep]}</div>
+    <div class="cp-dots">${cpDotHtml(vals[cpStep],cls[cpStep])}</div>
     <div id="cp-err" class="err-msg"></div>
     <div class="cp-keypad">
       ${[1,2,3,4,5,6,7,8,9].map(n=>`<button class="cp-key" onclick="cpTap('${n}')">${n}</button>`).join('')}
-      <div></div>
-      <button class="cp-key" onclick="cpTap('0')">0</button>
+      <div></div><button class="cp-key" onclick="cpTap('0')">0</button>
       <button class="cp-key dim" onclick="cpDel()">⌫</button>
     </div>
-    <div style="display:flex;gap:8px;margin-top:4px">
-      <button class="btn-cancel" onclick="closeSheet()">Huỷ</button>
-    </div>`;
+    <button class="btn-cancel" style="width:100%;margin-top:4px" onclick="closeSheet()">Huỷ</button>`;
 }
-
-function renderCpSheet(){
-  const el=document.getElementById('sheet-body');
-  if(el)el.innerHTML=getCpHtml();
-}
-
 function cpTap(d){
-  const cur=[cpOld,cpNew,cpNew2][cpStep];
-  if(cur.length>=PIN_LEN)return;
-  if(cpStep===0)cpOld+=d;
-  else if(cpStep===1)cpNew+=d;
-  else cpNew2+=d;
+  const vals=[cpOld,cpNew,cpNew2];
+  if(vals[cpStep].length>=PIN_LEN)return;
+  if(cpStep===0)cpOld+=d;else if(cpStep===1)cpNew+=d;else cpNew2+=d;
   renderCpSheet();
-  const cur2=[cpOld,cpNew,cpNew2][cpStep];
-  if(cur2.length===PIN_LEN)setTimeout(cpNext,150);
+  if([cpOld,cpNew,cpNew2][cpStep].length===PIN_LEN)setTimeout(cpNext,150);
 }
 function cpDel(){
   if(cpStep===0)cpOld=cpOld.slice(0,-1);
@@ -379,20 +434,13 @@ function cpDel(){
 }
 function cpNext(){
   if(cpStep===0){
-    if(cpOld!==ST.pass){
-      document.getElementById('cp-err').textContent='❌ Mật khẩu hiện tại không đúng!';
-      cpOld='';renderCpSheet();return;
-    }
+    if(cpOld!==ST.pass){document.getElementById('cp-err').textContent='❌ Mật khẩu hiện tại không đúng!';cpOld='';renderCpSheet();return;}
     cpStep=1;renderCpSheet();
   } else if(cpStep===1){
     cpStep=2;renderCpSheet();
   } else {
-    if(cpNew!==cpNew2){
-      document.getElementById('cp-err').textContent='❌ Mật khẩu mới không khớp!';
-      cpNew='';cpNew2='';cpStep=1;renderCpSheet();return;
-    }
-    ST.pass=cpNew;saveLS();closeSheet();
-    toast('✅ Đổi mật khẩu thành công!');
+    if(cpNew!==cpNew2){document.getElementById('cp-err').textContent='❌ Mật khẩu mới không khớp!';cpNew='';cpNew2='';cpStep=1;renderCpSheet();return;}
+    ST.pass=cpNew;saveData();closeSheet();toast('✅ Đổi mật khẩu thành công!');
   }
 }
 
@@ -413,21 +461,11 @@ function renderHome(){
       h+=`<div class="card clickable" onclick="selCust('${c.id}')">
         <div class="row" style="margin-bottom:${lc?'11px':'0'}">
           <div style="width:46px;height:46px;border-radius:14px;background:${c.color};display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;flex-shrink:0">${c.name.charAt(0)}</div>
-          <div style="flex:1;min-width:0">
-            <div style="font-weight:800;font-size:15px">${c.name}</div>
-            <div style="font-size:12px;color:var(--text2);margin-top:1px">${c.phone||'—'} · ${c.cycles.length} chu kỳ</div>
-          </div>
-          <div style="text-align:right;margin-right:6px">
-            <div style="font-weight:800;font-size:16px;color:var(--gold)">${fmtTr(tl)}</div>
-            <div style="font-size:11px;color:var(--text3)">hạn mức</div>
-          </div>
+          <div style="flex:1;min-width:0"><div style="font-weight:800;font-size:15px">${c.name}</div><div style="font-size:12px;color:var(--text2);margin-top:1px">${c.phone||'—'} · ${c.cycles.length} chu kỳ</div></div>
+          <div style="text-align:right;margin-right:6px"><div style="font-weight:800;font-size:16px;color:var(--gold)">${fmtTr(tl)}</div><div style="font-size:11px;color:var(--text3)">hạn mức</div></div>
           <button class="ib" onclick="event.stopPropagation();openCustModal('${c.id}')">✏️</button>
         </div>
-        ${lc?`<div class="row" style="margin-bottom:5px;font-size:12px">
-          <span style="flex:1;color:var(--text2)">${MONTHS[lc.month-1]} ${lc.year} · ${dn}/${tt} đáo xong</span>
-          <span style="color:var(--red);font-weight:700">${fmtK(tf)}</span>
-        </div>
-        <div class="prog-track"><div class="prog-fill" style="width:${tt?dn/tt*100:0}%"></div></div>`:''}
+        ${lc?`<div class="row" style="margin-bottom:5px;font-size:12px"><span style="flex:1;color:var(--text2)">${MONTHS[lc.month-1]} ${lc.year} · ${dn}/${tt} đáo xong</span><span style="color:var(--red);font-weight:700">${fmtK(tf)}</span></div><div class="prog-track"><div class="prog-fill" style="width:${tt?dn/tt*100:0}%"></div></div>`:''}
       </div>`;
     });
   }
@@ -461,10 +499,7 @@ function renderCust(){
       const all=dn===cy.cards.length&&cy.cards.length>0;
       h+=`<div class="card clickable${all?' done':''}" onclick="selCycle('${cy.id}')">
         <div class="row" style="margin-bottom:9px">
-          <div style="flex:1">
-            <div style="font-weight:800;font-size:15px">${MONTHS[cy.month-1]} ${cy.year} ${all?'✅':''}</div>
-            <div style="font-size:12px;color:var(--text2);margin-top:1px">${cy.cards.length} thẻ · đáo ${dn}/${cy.cards.length} · TT ${pd}/${cy.cards.length}</div>
-          </div>
+          <div style="flex:1"><div style="font-weight:800;font-size:15px">${MONTHS[cy.month-1]} ${cy.year} ${all?'✅':''}</div><div style="font-size:12px;color:var(--text2);margin-top:1px">${cy.cards.length} thẻ · đáo ${dn}/${cy.cards.length} · TT ${pd}/${cy.cards.length}</div></div>
           <span style="font-weight:800;font-size:15px;color:var(--red)">${fmtK(tf)}</span>
           <button class="pill" style="font-size:11px;padding:5px 8px;background:rgba(96,165,250,.12);color:var(--blue);border-color:rgba(96,165,250,.22)" onclick="event.stopPropagation();confirmClone('${cust.id}','${cy.id}')">🔁</button>
           <button class="ib" style="width:30px;height:30px" onclick="event.stopPropagation();openCycleModal('${cy.id}')">✏️</button>
@@ -488,7 +523,6 @@ function renderCycleScreen(){
   const dn=cy.cards.filter(c=>c.daDaoXong).length;
   const pd=cy.cards.filter(c=>c.khachDaThanhToan).length;
   const pct=cy.cards.length?dn/cy.cards.length:0;
-
   let h=`<div class="card" style="cursor:default;margin-bottom:14px">
     <div class="row" style="margin-bottom:12px">
       <div style="width:38px;height:38px;border-radius:12px;background:${cust.color};display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;flex-shrink:0">${cust.name.charAt(0)}</div>
@@ -508,14 +542,10 @@ function renderCycleScreen(){
       <button class="pill" style="flex:1;justify-content:center;padding:10px 0;background:rgba(74,222,128,.12);color:var(--green);border-color:rgba(74,222,128,.28);font-size:13px" onclick="openCardModal()">➕ Thêm thẻ</button>
     </div>
   </div>`;
-
-  if(!sorted.length){
-    h+=`<div class="empty"><div class="empty-icon">💳</div><p style="font-weight:600">Chưa có thẻ</p><p style="font-size:13px;margin-top:4px">Nhấn ➕ để thêm thẻ đầu tiên</p></div>`;
-  } else {
+  if(!sorted.length){h+=`<div class="empty"><div class="empty-icon">💳</div><p style="font-weight:600">Chưa có thẻ</p><p style="font-size:13px;margin-top:4px">Nhấn ➕ để thêm thẻ</p></div>`;}
+  else{
     sorted.forEach((card,i)=>{
-      const f=fee(card.dao,card.rate);
-      const lb=LOGO_BG[card.logo]||'#555';
-      const isTop=i===0&&card.daDaoXong;
+      const f=fee(card.dao,card.rate);const lb=LOGO_BG[card.logo]||'#555';const isTop=i===0&&card.daDaoXong;
       h+=`<div class="card${card.daDaoXong?' done':''}" style="position:relative;cursor:default;${isTop?'margin-top:10px':''}">
         ${isTop?'<div class="badge-top">🏆 ĐÃ ĐÁO</div>':''}
         <div class="row" style="margin-bottom:9px">
@@ -536,46 +566,40 @@ function renderCycleScreen(){
       </div>`;
     });
   }
-
   if(cy.cards.length){
     h+=`<div class="card" style="cursor:default;margin-top:4px"><div style="font-weight:700;font-size:13px;color:var(--text2);margin-bottom:10px">📊 Chi tiết phí từng thẻ</div>`;
-    cy.cards.forEach(c=>{
-      const f=fee(c.dao,c.rate);
-      h+=`<div class="stats-row">
-        <div><div style="font-size:13px;font-weight:600">${c.bank}</div><div style="font-size:11px;color:var(--text2)">${fmtTr(c.dao)} × ${c.rate}%</div></div>
+    cy.cards.forEach(c=>{const f=fee(c.dao,c.rate);
+      h+=`<div class="stats-row"><div><div style="font-size:13px;font-weight:600">${c.bank}</div><div style="font-size:11px;color:var(--text2)">${fmtTr(c.dao)} × ${c.rate}%</div></div>
         <div style="display:flex;align-items:center;gap:6px">
           ${c.daDaoXong?`<span style="font-size:10px;color:var(--green);background:rgba(74,222,128,.12);padding:2px 6px;border-radius:99px;font-weight:700">✓ Đáo</span>`:''}
           ${c.khachDaThanhToan?`<span style="font-size:10px;color:var(--blue);background:rgba(96,165,250,.12);padding:2px 6px;border-radius:99px;font-weight:700">✓ TT</span>`:''}
           <span style="font-weight:800;color:var(--red);font-size:14px">${fmtVND(f)}</span>
-        </div>
-      </div>`;
+        </div></div>`;
     });
     h+=`<div style="display:flex;justify-content:flex-end;padding-top:10px;margin-top:8px;border-top:1px solid var(--border)"><span style="font-weight:900;font-size:20px;color:var(--gold)">${fmtVND(tf)}</span></div></div>`;
   }
   el.innerHTML=h;
 }
-
 function toggleCard(cyId,cardId,field){
   const cust=getCust();if(!cust)return;
   ST.customers=ST.customers.map(c=>c.id!==cust.id?c:{...c,cycles:c.cycles.map(cy=>cy.id!==cyId?cy:{...cy,cards:cy.cards.map(cd=>cd.id!==cardId?cd:{...cd,[field]:!cd[field]})})});
-  saveLS();renderCycleScreen();
+  saveData();renderCycleScreen();
 }
-
 function doShare(){
   const cust=getCust(),cy=getCycle();if(!cust||!cy)return;
   const dn=cy.cards.filter(c=>c.daDaoXong).length;
   const tf=cy.cards.reduce((s,c)=>s+fee(c.dao,c.rate),0);
   const lines=cy.cards.filter(c=>c.daDaoXong).map(c=>`✅ ${c.bank}: ${fmtTr(c.dao)} – phí ${fmtVND(fee(c.dao,c.rate))}`).join('\n');
   const msg=`💳 ${cust.name}\n📅 ${MONTHS[cy.month-1]} ${cy.year}\n✅ Đã đáo: ${dn}/${cy.cards.length} thẻ\n${lines}\n💸 Tổng phí: ${fmtVND(tf)}\n\n🙏 Cảm ơn anh/chị đã tin tưởng!`;
-  if(navigator.share){navigator.share({title:`${cust.name}`,text:msg}).catch(()=>{});}
-  else{try{navigator.clipboard.writeText(msg);toast('Đã sao chép thông tin 📋');}catch{toast('Dùng nút chụp màn hình điện thoại 📸');}}
+  if(navigator.share){navigator.share({title:cust.name,text:msg}).catch(()=>{});}
+  else{try{navigator.clipboard.writeText(msg);toast('Đã sao chép thông tin 📋');}catch{toast('Dùng nút chụp màn hình 📸');}}
 }
 
 // ═══════════════════════ SHEET ═══════════════════════
-function openSheet(title,body,right){
+function openSheet(title,body){
   document.getElementById('sheet-title').textContent=title;
   document.getElementById('sheet-body').innerHTML=body;
-  document.getElementById('sheet-right').innerHTML=right||'';
+  document.getElementById('sheet-right').innerHTML='';
   document.getElementById('sheet-overlay').classList.add('open');
 }
 function closeSheetOutside(e){if(e.target===document.getElementById('sheet-overlay'))closeSheet();}
@@ -583,21 +607,17 @@ function closeSheet(){document.getElementById('sheet-overlay').classList.remove(
 
 // ═══════════════════════ CUSTOMER MODAL ═══════════════════════
 function openCustModal(id){
-  const c=id?ST.customers.find(x=>x.id===id):null;
-  const isNew=!c;const col=c?.color||COLORS[0];
+  const c=id?ST.customers.find(x=>x.id===id):null;const isNew=!c;const col=c?.color||COLORS[0];
   const sw=COLORS.map(x=>`<div class="swatch${col===x?' sel':''}" style="background:${x}" onclick="pickColor('${x}')"></div>`).join('');
   openSheet(isNew?'👤 Thêm khách mới':'✏️ Sửa khách',`
     <div class="mf"><label>Tên khách hàng</label><input id="cf-name" value="${esc(c?.name||'')}" placeholder="Nhập tên..."/></div>
     <div class="mf"><label>Số điện thoại</label><input id="cf-phone" type="tel" value="${esc(c?.phone||'')}" placeholder="09xx..."/></div>
-    <div class="mf"><label>Màu đại diện</label><div class="swatches" id="sw-wrap">${sw}</div></div>
+    <div class="mf"><label>Màu đại diện</label><div class="swatches">${sw}</div></div>
     <input type="hidden" id="cf-color" value="${col}"/>
     ${!isNew?`<button class="del-btn" onclick="closeSheet();setTimeout(()=>confirmDelCust('${c.id}','${esc(c.name)}'),200)">🗑 Xoá khách này</button>`:''}
     <button class="save-btn" onclick="saveCust('${id||''}')">💾 ${isNew?'Thêm khách':'Lưu'}</button>`);
 }
-function pickColor(col){
-  document.getElementById('cf-color').value=col;
-  document.querySelectorAll('.swatch').forEach(el=>el.classList.toggle('sel',el.style.background===col));
-}
+function pickColor(col){document.getElementById('cf-color').value=col;document.querySelectorAll('.swatch').forEach(el=>el.classList.toggle('sel',el.style.background===col));}
 function saveCust(id){
   const name=document.getElementById('cf-name').value.trim();
   const phone=document.getElementById('cf-phone').value.trim();
@@ -605,43 +625,34 @@ function saveCust(id){
   if(!name)return toast('Vui lòng nhập tên khách',false);
   if(id){ST.customers=ST.customers.map(c=>c.id===id?{...c,name,phone,color}:c);toast('Đã lưu khách ✓');}
   else{ST.customers.push({id:uid(),name,phone,color,cycles:[]});toast('Thêm khách thành công ✓');}
-  saveLS();closeSheet();
+  saveData();closeSheet();
   if(ST.screen==='home')renderHome();else renderCust();
 }
 function confirmDelCust(id,name){
   openSheet('⚠️ Xác nhận',`<p style="font-weight:700;font-size:15px;margin-bottom:8px">Xoá khách "${name}"?</p><p style="font-size:13px;color:var(--text2);margin-bottom:20px">Toàn bộ chu kỳ và thẻ sẽ bị xoá vĩnh viễn.</p><div class="confirm-row"><button class="btn-cancel" onclick="closeSheet()">Huỷ</button><button class="btn-danger" onclick="delCust('${id}')">🗑 Xoá</button></div>`);
 }
-function delCust(id){
-  ST.customers=ST.customers.filter(c=>c.id!==id);saveLS();closeSheet();
-  ST.selCust=null;ST.selCycle=null;goScreen('home');renderHome();toast('Đã xoá khách',false);
-}
+function delCust(id){ST.customers=ST.customers.filter(c=>c.id!==id);saveData();closeSheet();ST.selCust=null;ST.selCycle=null;goScreen('home');renderHome();toast('Đã xoá khách',false);}
 
 // ═══════════════════════ CYCLE MODAL ═══════════════════════
 function openCycleModal(cyId){
   const cust=getCust();if(!cust)return;
-  const cy=cyId?cust.cycles.find(x=>x.id===cyId):null;
-  const isNew=!cy;const now=new Date();
+  const cy=cyId?cust.cycles.find(x=>x.id===cyId):null;const isNew=!cy;const now=new Date();
   const mo=cy?.month||(now.getMonth()+1);const yr=cy?.year||now.getFullYear();
   const mos=MONTHS.map((m,i)=>`<option value="${i+1}"${mo===i+1?' selected':''}>${m}</option>`).join('');
-  const yrs=[2024,2025,2026,2027].map(y=>`<option value="${y}"${yr===y?' selected':''}>${y}</option>`).join('');
+  const yrs=[2024,2025,2026,2027,2028].map(y=>`<option value="${y}"${yr===y?' selected':''}>${y}</option>`).join('');
   openSheet(isNew?'📅 Tạo chu kỳ mới':'✏️ Sửa chu kỳ',`
-    <div class="grid2">
-      <div class="mf"><label>Tháng</label><select id="cyf-m">${mos}</select></div>
-      <div class="mf"><label>Năm</label><select id="cyf-y">${yrs}</select></div>
-    </div>
+    <div class="grid2"><div class="mf"><label>Tháng</label><select id="cyf-m">${mos}</select></div><div class="mf"><label>Năm</label><select id="cyf-y">${yrs}</select></div></div>
     <div class="mf"><label>Ghi chú</label><input id="cyf-note" value="${esc(cy?.note||'')}" placeholder="Tuỳ chọn..."/></div>
     <button class="save-btn" onclick="saveCycle('${cust.id}','${cyId||''}')">💾 ${isNew?'Tạo chu kỳ':'Lưu'}</button>`);
 }
 function saveCycle(custId,cyId){
-  const month=+document.getElementById('cyf-m').value;
-  const year=+document.getElementById('cyf-y').value;
-  const note=document.getElementById('cyf-note').value.trim();
+  const month=+document.getElementById('cyf-m').value,year=+document.getElementById('cyf-y').value,note=document.getElementById('cyf-note').value.trim();
   ST.customers=ST.customers.map(c=>{
     if(c.id!==custId)return c;
     if(cyId)return{...c,cycles:c.cycles.map(cy=>cy.id===cyId?{...cy,month,year,note}:cy)};
     return{...c,cycles:[...c.cycles,{id:uid(),month,year,note,cards:[]}]};
   });
-  saveLS();closeSheet();toast(cyId?'Lưu chu kỳ thành công ✓':'Tạo chu kỳ thành công ✓');
+  saveData();closeSheet();toast(cyId?'Lưu chu kỳ thành công ✓':'Tạo chu kỳ thành công ✓');
   if(ST.screen==='cust')renderCust();else if(ST.screen==='cycle'){updateTopbar();renderCycleScreen();}
 }
 function confirmDelCycle(custId,cyId,label){
@@ -649,7 +660,7 @@ function confirmDelCycle(custId,cyId,label){
 }
 function delCycle(custId,cyId){
   ST.customers=ST.customers.map(c=>c.id!==custId?c:{...c,cycles:c.cycles.filter(x=>x.id!==cyId)});
-  saveLS();closeSheet();ST.selCycle=null;goScreen('cust');renderCust();toast('Đã xoá chu kỳ',false);
+  saveData();closeSheet();ST.selCycle=null;goScreen('cust');renderCust();toast('Đã xoá chu kỳ',false);
 }
 function confirmClone(custId,cyId){
   const cust=ST.customers.find(c=>c.id===custId);const cy=cust?.cycles.find(x=>x.id===cyId);if(!cy)return;
@@ -661,19 +672,17 @@ function doClone(custId,cyId){
   const nm=cy.month===12?1:cy.month+1;const ny=cy.month===12?cy.year+1:cy.year;
   const newCy={id:uid(),month:nm,year:ny,note:'',cards:cy.cards.map(c=>({...c,id:uid(),daDaoXong:false,khachDaThanhToan:false}))};
   ST.customers=ST.customers.map(c=>c.id!==custId?c:{...c,cycles:[...c.cycles,newCy]});
-  saveLS();closeSheet();toast(`Tạo ${MONTHS[nm-1]} ${ny} thành công ✓`);
-  if(ST.screen==='cust')renderCust();
-  else{ST.selCycle=newCy.id;updateTopbar();renderCycleScreen();}
+  saveData();closeSheet();toast(`Tạo ${MONTHS[nm-1]} ${ny} thành công ✓`);
+  if(ST.screen==='cust')renderCust();else{ST.selCycle=newCy.id;updateTopbar();renderCycleScreen();}
 }
 
 // ═══════════════════════ CARD MODAL ═══════════════════════
 function openCardModal(cardId){
   const cust=getCust(),cy=getCycle();if(!cust||!cy)return;
-  const card=cardId?cy.cards.find(c=>c.id===cardId):null;
-  const isNew=!card;const selLogo=card?.logo||'TCB';
+  const card=cardId?cy.cards.find(c=>c.id===cardId):null;const isNew=!card;const selLogo=card?.logo||'TCB';
   const lg=LOGOS.map(l=>`<button class="lbtn${selLogo===l?' sel':''}" style="${selLogo===l?'background:'+(LOGO_BG[l]||'#555')+';color:#fff;':''}" onclick="pickLogo('${l}')">${l}</button>`).join('');
   openSheet(isNew?'➕ Thêm thẻ mới':'✏️ Sửa thẻ',`
-    <div class="mf"><label>Tên ngân hàng</label><input id="cf2-bank" value="${esc(card?.bank||'')}" placeholder="Techcombank, Sacombank..."/></div>
+    <div class="mf"><label>Tên ngân hàng</label><input id="cf2-bank" value="${esc(card?.bank||'')}" placeholder="Techcombank..."/></div>
     <div class="mf"><label>Logo / Ký hiệu</label><div class="logo-grid">${lg}</div></div>
     <input type="hidden" id="cf2-logo" value="${selLogo}"/>
     <div class="grid2">
@@ -704,17 +713,13 @@ function saveCard(custId,cyId,cardId){
   const bank=document.getElementById('cf2-bank').value.trim();
   if(!bank)return toast('Vui lòng nhập tên ngân hàng',false);
   const oldCard=cardId?getCycle()?.cards.find(c=>c.id===cardId):null;
-  const newCard={
-    id:cardId||uid(),bank,
-    logo:document.getElementById('cf2-logo').value,
+  const newCard={id:cardId||uid(),bank,logo:document.getElementById('cf2-logo').value,
     limit:parseFloat(document.getElementById('cf2-limit').value)||0,
     dao:parseFloat(document.getElementById('cf2-dao').value)||0,
     rate:parseFloat(document.getElementById('cf2-rate').value)||0,
     saoKe:document.getElementById('cf2-sk').value,
     thanhToan:document.getElementById('cf2-tt').value,
-    daDaoXong:oldCard?.daDaoXong||false,
-    khachDaThanhToan:oldCard?.khachDaThanhToan||false,
-  };
+    daDaoXong:oldCard?.daDaoXong||false,khachDaThanhToan:oldCard?.khachDaThanhToan||false};
   ST.customers=ST.customers.map(c=>{
     if(c.id!==custId)return c;
     return{...c,cycles:c.cycles.map(cy=>{
@@ -723,7 +728,7 @@ function saveCard(custId,cyId,cardId){
       return{...cy,cards:[...cy.cards,newCard]};
     })};
   });
-  saveLS();closeSheet();toast(cardId?'Lưu thẻ thành công ✓':'Thêm thẻ thành công ✓');renderCycleScreen();
+  saveData();closeSheet();toast(cardId?'Lưu thẻ thành công ✓':'Thêm thẻ thành công ✓');renderCycleScreen();
 }
 function confirmDelCard(cyId,cardId,bank){
   openSheet('⚠️ Xác nhận',`<p style="font-weight:700;font-size:15px;margin-bottom:8px">Xoá thẻ "${bank}"?</p><div class="confirm-row"><button class="btn-cancel" onclick="closeSheet()">Huỷ</button><button class="btn-danger" onclick="delCard('${cyId}','${cardId}')">🗑 Xoá thẻ</button></div>`);
@@ -731,11 +736,8 @@ function confirmDelCard(cyId,cardId,bank){
 function delCard(cyId,cardId){
   const cust=getCust();if(!cust)return;
   ST.customers=ST.customers.map(c=>c.id!==cust.id?c:{...c,cycles:c.cycles.map(cy=>cy.id!==cyId?cy:{...cy,cards:cy.cards.filter(cd=>cd.id!==cardId)})});
-  saveLS();closeSheet();toast('Đã xoá thẻ',false);renderCycleScreen();
+  saveData();closeSheet();toast('Đã xoá thẻ',false);renderCycleScreen();
 }
-
-// ═══════════════════════ INIT ═══════════════════════
-applyTheme();
 </script>
 </body>
 </html>
