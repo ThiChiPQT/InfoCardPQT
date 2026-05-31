@@ -15,25 +15,34 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <style>
 :root{
-  --bg:linear-gradient(160deg,#0d0b20,#1a1840,#0d1a2e);
-  --surface:rgba(255,255,255,0.06);--border:rgba(255,255,255,0.09);
-  --text:#fff;--text2:rgba(255,255,255,0.45);--text3:rgba(255,255,255,0.22);
-  --input:rgba(255,255,255,0.08);--sheet:#1c1a42;--topbar:rgba(13,11,32,0.88);
-  --pbg:rgba(255,255,255,0.12);--kpi:rgba(255,255,255,0.08);
-  --gold:#ffd200;--green:#4ade80;--blue:#60a5fa;--red:#f87171;
-  --purple:#c4b5fd;--orange:#f7971e;--font:'Be Vietnam Pro',sans-serif;
+--bg:linear-gradient(160deg,#0d0b20,#1a1840,#0d1a2e);
+--surface:rgba(255,255,255,0.06);--border:rgba(255,255,255,0.09);
+--text:#fff;--text2:rgba(255,255,255,0.45);--text3:rgba(255,255,255,0.22);
+--input:rgba(255,255,255,0.08);--sheet:#1c1a42;--topbar:rgba(13,11,32,0.88);
+--pbg:rgba(255,255,255,0.12);--kpi:rgba(255,255,255,0.08);
+--gold:#ffd200;--green:#4ade80;--blue:#60a5fa;--red:#f87171;
+--purple:#c4b5fd;--orange:#f7971e;--font:'Be Vietnam Pro',sans-serif;
 }
 .light{
-  --bg:linear-gradient(160deg,#eef2ff,#e8f0fe,#f3e8ff);
-  --surface:rgba(255,255,255,0.80);--border:rgba(0,0,0,0.08);
-  --text:#1a1a2e;--text2:rgba(26,26,46,0.5);--text3:rgba(26,26,46,0.28);
-  --input:rgba(0,0,0,0.05);--sheet:#fff;--topbar:rgba(238,242,255,0.92);
-  --pbg:rgba(0,0,0,0.10);--kpi:rgba(0,0,0,0.05);
+--bg:linear-gradient(160deg,#eef2ff,#e8f0fe,#f3e8ff);
+--surface:rgba(255,255,255,0.80);--border:rgba(0,0,0,0.08);
+--text:#1a1a2e;--text2:rgba(26,26,46,0.5);--text3:rgba(26,26,46,0.28);
+--input:rgba(0,0,0,0.05);--sheet:#fff;--topbar:rgba(238,242,255,0.92);
+--pbg:rgba(0,0,0,0.10);--kpi:rgba(0,0,0,0.05);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;font-family:var(--font)}
 ::-webkit-scrollbar{display:none}
-html,body{height:100%;overflow:hidden;background:#0d0b20}
-#app{width:100%;max-width:430px;margin:0 auto;height:100vh;overflow-y:auto;overflow-x:hidden;background:var(--bg);color:var(--text);position:relative;-webkit-overflow-scrolling:touch}
+html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:#0d0b20}
+
+/* FIX iOS: dùng -webkit-fill-available thay 100vh */
+#app{
+  width:100%;max-width:430px;margin:0 auto;
+  height:100vh;height:-webkit-fill-available;
+  overflow-y:auto;overflow-x:hidden;
+  background:var(--bg);color:var(--text);
+  position:relative;-webkit-overflow-scrolling:touch
+}
+
 .blob{position:fixed;border-radius:50%;pointer-events:none;z-index:0;animation:blobMove 9s ease-in-out infinite}
 .blob1{width:280px;height:280px;background:radial-gradient(circle,rgba(247,151,30,0.13),transparent 70%);top:-60px;right:-60px}
 .blob2{width:220px;height:220px;background:radial-gradient(circle,rgba(96,165,250,0.10),transparent 70%);bottom:100px;left:-50px;animation-direction:reverse;animation-duration:12s}
@@ -77,7 +86,7 @@ html,body{height:100%;overflow:hidden;background:#0d0b20}
 .swatches{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
 .swatch{width:30px;height:30px;border-radius:9px;border:2px solid transparent;cursor:pointer;transition:all .15s}
 .swatch.sel{border-color:#fff;transform:scale(1.18)}
-#login{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:0 28px;position:relative;z-index:1}
+#login{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100%;min-height:-webkit-fill-available;padding:0 28px;position:relative;z-index:1}
 .login-logo{width:66px;height:66px;background:linear-gradient(135deg,var(--orange),var(--gold));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 28px rgba(247,151,30,.35);margin:0 auto 12px}
 .pin-dots{display:flex;justify-content:center;gap:16px;margin-bottom:24px}
 .pin-dot{width:14px;height:14px;border-radius:50%;background:var(--input);border:1.5px solid var(--border);transition:background .15s}
@@ -118,72 +127,71 @@ html,body{height:100%;overflow:hidden;background:#0d0b20}
 </style>
 </head>
 <body>
-
 <div id="loading">
-  <div style="width:62px;height:62px;background:linear-gradient(135deg,#f7971e,#ffd200);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 8px 28px rgba(247,151,30,.35)">💳</div>
-  <div class="spin"></div>
-  <p style="color:rgba(255,255,255,.4);font-size:13px;font-family:'Be Vietnam Pro',sans-serif">Đang kết nối...</p>
+<div style="width:62px;height:62px;background:linear-gradient(135deg,#f7971e,#ffd200);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 8px 28px rgba(247,151,30,.35)">💳</div>
+<div class="spin"></div>
+<p style="color:rgba(255,255,255,.4);font-size:13px;font-family:'Be Vietnam Pro',sans-serif">Đang kết nối...</p>
 </div>
 
 <div id="app" style="display:none">
-  <div class="blob blob1"></div>
-  <div class="blob blob2"></div>
-  <div id="topbar" style="display:none">
-    <button class="ib" id="btn-back" style="display:none;font-size:22px;font-weight:700">‹</button>
-    <span id="topbar-title">Manager Card 💳</span>
-    <button class="ib" id="btn-add" style="background:rgba(247,151,30,.2);color:var(--gold);font-weight:800;font-size:18px">👤</button>
-    <button class="ib" id="btn-theme" title="Sáng/Tối">🌙</button>
-    <button class="ib" id="btn-refresh" title="Làm mới">🔄</button>
-    <button class="ib" id="btn-menu" title="Cài đặt">⋯</button>
-  </div>
-  <div id="login">
-    <div style="text-align:center;margin-bottom:28px">
-      <div class="login-logo">💳</div>
-      <h2 style="font-size:20px;font-weight:900">Quang Trung</h2>
-      <p style="font-size:13px;color:var(--text2);margin-top:3px">Manager Card</p>
-    </div>
-    <div class="pin-dots" id="pin-dots">
-      <div class="pin-dot" id="d0"></div><div class="pin-dot" id="d1"></div>
-      <div class="pin-dot" id="d2"></div><div class="pin-dot" id="d3"></div>
-    </div>
-    <div class="err-msg" id="pin-err"></div>
-    <div class="keypad">
-      <button class="key" onclick="tap('1')">1</button><button class="key" onclick="tap('2')">2</button><button class="key" onclick="tap('3')">3</button>
-      <button class="key" onclick="tap('4')">4</button><button class="key" onclick="tap('5')">5</button><button class="key" onclick="tap('6')">6</button>
-      <button class="key" onclick="tap('7')">7</button><button class="key" onclick="tap('8')">8</button><button class="key" onclick="tap('9')">9</button>
-      <div></div><button class="key" onclick="tap('0')">0</button><button class="key dim" onclick="delPin()">⌫</button>
-    </div>
-    <button class="login-btn" id="login-btn" onclick="doLogin()">🔓 ĐĂNG NHẬP</button>
-  </div>
-  <div id="main" style="display:none">
-    <div id="sc-home"  class="screen"></div>
-    <div id="sc-cust"  class="screen" style="display:none"></div>
-    <div id="sc-cycle" class="screen" style="display:none"></div>
-  </div>
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div id="topbar" style="display:none">
+<button class="ib" id="btn-back" style="display:none;font-size:22px;font-weight:700">‹</button>
+<span id="topbar-title">Manager Card 💳</span>
+<button class="ib" id="btn-add" style="background:rgba(247,151,30,.2);color:var(--gold);font-weight:800;font-size:18px">👤</button>
+<button class="ib" id="btn-theme" title="Sáng/Tối">🌙</button>
+<button class="ib" id="btn-refresh" title="Làm mới">🔄</button>
+<button class="ib" id="btn-menu" title="Cài đặt">⋯</button>
+</div>
+<div id="login">
+<div style="text-align:center;margin-bottom:28px">
+<div class="login-logo">💳</div>
+<h2 style="font-size:20px;font-weight:900">Quang Trung</h2>
+<p style="font-size:13px;color:var(--text2);margin-top:3px">Manager Card</p>
+</div>
+<div class="pin-dots" id="pin-dots">
+<div class="pin-dot" id="d0"></div><div class="pin-dot" id="d1"></div>
+<div class="pin-dot" id="d2"></div><div class="pin-dot" id="d3"></div>
+</div>
+<div class="err-msg" id="pin-err"></div>
+<div class="keypad">
+<button class="key" onclick="tap('1')">1</button><button class="key" onclick="tap('2')">2</button><button class="key" onclick="tap('3')">3</button>
+<button class="key" onclick="tap('4')">4</button><button class="key" onclick="tap('5')">5</button><button class="key" onclick="tap('6')">6</button>
+<button class="key" onclick="tap('7')">7</button><button class="key" onclick="tap('8')">8</button><button class="key" onclick="tap('9')">9</button>
+<div></div><button class="key" onclick="tap('0')">0</button><button class="key dim" onclick="delPin()">⌫</button>
+</div>
+<button class="login-btn" id="login-btn" onclick="doLogin()">🔓 ĐĂNG NHẬP</button>
+</div>
+<div id="main" style="display:none">
+<div id="sc-home" class="screen"></div>
+<div id="sc-cust" class="screen" style="display:none"></div>
+<div id="sc-cycle" class="screen" style="display:none"></div>
+</div>
 </div>
 
 <div id="sheet-overlay" onclick="closeSheetOutside(event)">
-  <div id="sheet-box">
-    <div class="sheet-handle"></div>
-    <div class="sheet-hrow"><span class="sheet-title" id="sheet-title"></span><span id="sheet-right"></span></div>
-    <div id="sheet-body"></div>
-  </div>
+<div id="sheet-box">
+<div class="sheet-handle"></div>
+<div class="sheet-hrow"><span class="sheet-title" id="sheet-title"></span><span id="sheet-right"></span></div>
+<div id="sheet-body"></div>
+</div>
 </div>
 <div id="sync-bar"></div>
 <div id="toast"></div>
 
 <script>
 // ══════════════════════════════════════════════
-// FIREBASE INIT (compat mode — works on Safari iOS)
+// FIREBASE INIT
 // ══════════════════════════════════════════════
 const firebaseConfig = {
-  apiKey: "AIzaSyDDE5duA4VCQOAsIqVsg1uVnMBryn7mXRY",
-  authDomain: "qt-manager-f06bb.firebaseapp.com",
-  databaseURL: "https://qt-manager-f06bb-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "qt-manager-f06bb",
-  storageBucket: "qt-manager-f06bb.firebasestorage.app",
-  messagingSenderId: "243777318601",
-  appId: "1:243777318601:web:a96a3d8a200e5fceece718"
+apiKey: "AIzaSyDDE5duA4VCQOAsIqVsg1uVnMBryn7mXRY",
+authDomain: "qt-manager-f06bb.firebaseapp.com",
+databaseURL: "https://qt-manager-f06bb-default-rtdb.asia-southeast1.firebasedatabase.app",
+projectId: "qt-manager-f06bb",
+storageBucket: "qt-manager-f06bb.firebasestorage.app",
+messagingSenderId: "243777318601",
+appId: "1:243777318601:web:a96a3d8a200e5fceece718"
 };
 firebase.initializeApp(firebaseConfig);
 const DB = firebase.database();
@@ -202,33 +210,46 @@ const COLORS = ['#f7971e','#60a5fa','#4ade80','#f87171','#a78bfa','#fb923c','#34
 // STATE
 // ══════════════════════════════════════════════
 const ST = {
-  dark: true, pass: DEFAULT_PASS, customers: [],
-  screen:'home', selCust:null, selCycle:null
+dark: true, pass: DEFAULT_PASS, customers: [],
+screen:'home', selCust:null, selCycle:null
 };
 
 // ══════════════════════════════════════════════
 // FIREBASE LOAD & SAVE
 // ══════════════════════════════════════════════
-function saveData() {
-  const sb = document.getElementById('sync-bar');
-  sb.textContent = '☁️ Đang lưu...';
-  sb.style.cssText = 'display:block;position:fixed;top:8px;right:8px;z-index:400;font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;background:rgba(96,165,250,.88);color:#fff;font-family:var(--font)';
-  DATA_REF.set({ dark: ST.dark, pass: ST.pass, customers: ST.customers })
-    .then(() => {
-      sb.textContent = '✅ Đã lưu';
-      sb.style.background = 'rgba(74,222,128,.88)';
-      sb.style.color = '#041a0a';
-      setTimeout(() => sb.style.display = 'none', 1800);
-    })
-    .catch(() => {
-      sb.textContent = '❌ Lỗi lưu';
-      sb.style.background = 'rgba(248,113,113,.88)';
-      setTimeout(() => sb.style.display = 'none', 2500);
-    });
+function showApp() {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  applyTheme();
+  document.getElementById('login').style.display = 'flex';
 }
 
-// Load once on startup
+function saveData() {
+const sb = document.getElementById('sync-bar');
+sb.textContent = '☁️ Đang lưu...';
+sb.style.cssText = 'display:block;position:fixed;top:8px;right:8px;z-index:400;font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;background:rgba(96,165,250,.88);color:#fff;font-family:var(--font)';
+DATA_REF.set({ dark: ST.dark, pass: ST.pass, customers: ST.customers })
+.then(() => {
+sb.textContent = '✅ Đã lưu';
+sb.style.background = 'rgba(74,222,128,.88)';
+sb.style.color = '#041a0a';
+setTimeout(() => sb.style.display = 'none', 1800);
+})
+.catch(() => {
+sb.textContent = '❌ Lỗi lưu';
+sb.style.background = 'rgba(248,113,113,.88)';
+setTimeout(() => sb.style.display = 'none', 2500);
+});
+}
+
+// FIX: Timeout 5 giây — tránh trắng màn hình nếu Firebase chậm / bị block trên iOS
+const loadTimeout = setTimeout(() => {
+  console.warn('Firebase timeout — hiển thị app với dữ liệu trống');
+  showApp();
+}, 5000);
+
 DATA_REF.once('value').then(snap => {
+  clearTimeout(loadTimeout);
   const val = snap.val();
   if (val) {
     if (val.dark !== undefined) ST.dark = val.dark;
@@ -236,17 +257,11 @@ DATA_REF.once('value').then(snap => {
     if (val.customers && Array.isArray(val.customers)) ST.customers = val.customers;
     else if (val.customers) ST.customers = Object.values(val.customers);
   }
-  document.getElementById('loading').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  applyTheme();
-  document.getElementById('login').style.display = 'flex';
+  showApp();
 }).catch(err => {
-  // Firebase error — still show app with empty data
+  clearTimeout(loadTimeout);
   console.warn('Firebase load error:', err);
-  document.getElementById('loading').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  applyTheme();
-  document.getElementById('login').style.display = 'flex';
+  showApp();
 });
 
 // ══════════════════════════════════════════════
@@ -261,18 +276,17 @@ const esc = s => (s||'').replace(/'/g,"\\'").replace(/"/g,'&quot;');
 function latestCy(c){ if(!c.cycles||!c.cycles.length)return null; return[...c.cycles].sort((a,b)=>b.year*12+b.month-(a.year*12+a.month))[0]; }
 function getCust(){ return ST.customers.find(c=>c.id===ST.selCust)||null; }
 function getCycle(){ const c=getCust(); return c?c.cycles.find(cy=>cy.id===ST.selCycle)||null:null; }
-
 function toast(msg,ok=true){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.style.background=ok?'rgba(74,222,128,.96)':'rgba(248,113,113,.96)';
-  t.style.color=ok?'#041a0a':'#fff'; t.style.display='block';
-  setTimeout(()=>t.style.display='none',2400);
+const t=document.getElementById('toast');
+t.textContent=msg; t.style.background=ok?'rgba(74,222,128,.96)':'rgba(248,113,113,.96)';
+t.style.color=ok?'#041a0a':'#fff'; t.style.display='block';
+setTimeout(()=>t.style.display='none',2400);
 }
 function applyTheme(){
-  document.getElementById('app').classList.toggle('light',!ST.dark);
-  const btn=document.getElementById('btn-theme');
-  if(btn) btn.textContent=ST.dark?'☀️':'🌙';
-  document.querySelector('meta[name=theme-color]').content=ST.dark?'#0d0b20':'#eef2ff';
+document.getElementById('app').classList.toggle('light',!ST.dark);
+const btn=document.getElementById('btn-theme');
+if(btn) btn.textContent=ST.dark?'☀️':'🌙';
+document.querySelector('meta[name=theme-color]').content=ST.dark?'#0d0b20':'#eef2ff';
 }
 
 // ══════════════════════════════════════════════
@@ -281,58 +295,58 @@ function applyTheme(){
 let pin='';
 const PIN_LEN=4;
 function tap(d){
-  if(pin.length>=PIN_LEN)return;
-  pin+=d; syncDots();
-  document.getElementById('pin-err').textContent='';
-  document.getElementById('login-btn').className='login-btn'+(pin.length===PIN_LEN?' ready':'');
-  if(pin.length===PIN_LEN) setTimeout(doLogin,150);
+if(pin.length>=PIN_LEN)return;
+pin+=d; syncDots();
+document.getElementById('pin-err').textContent='';
+document.getElementById('login-btn').className='login-btn'+(pin.length===PIN_LEN?' ready':'');
+if(pin.length===PIN_LEN) setTimeout(doLogin,150);
 }
 function delPin(){ pin=pin.slice(0,-1); syncDots(); document.getElementById('login-btn').className='login-btn'; }
 function syncDots(){
-  for(let i=0;i<PIN_LEN;i++){
-    const el=document.getElementById('d'+i); if(!el)continue;
-    el.classList.toggle('filled',i<pin.length); el.classList.remove('err');
-  }
+for(let i=0;i<PIN_LEN;i++){
+const el=document.getElementById('d'+i); if(!el)continue;
+el.classList.toggle('filled',i<pin.length); el.classList.remove('err');
+}
 }
 function doLogin(){
-  if(pin!==ST.pass){
-    for(let i=0;i<PIN_LEN;i++) document.getElementById('d'+i).classList.add('err');
-    const pd=document.getElementById('pin-dots'); pd.style.animation='shakeX .4s ease';
-    document.getElementById('pin-err').textContent='❌ Mật khẩu không đúng!';
-    setTimeout(()=>pd.style.animation='',500);
-    pin=''; syncDots(); document.getElementById('login-btn').className='login-btn'; return;
-  }
-  document.getElementById('login').style.display='none';
-  document.getElementById('main').style.display='block';
-  document.getElementById('topbar').style.display='flex';
-  goScreen('home'); renderHome();
+if(pin!==ST.pass){
+for(let i=0;i<PIN_LEN;i++) document.getElementById('d'+i).classList.add('err');
+const pd=document.getElementById('pin-dots'); pd.style.animation='shakeX .4s ease';
+document.getElementById('pin-err').textContent='❌ Mật khẩu không đúng!';
+setTimeout(()=>pd.style.animation='',500);
+pin=''; syncDots(); document.getElementById('login-btn').className='login-btn'; return;
+}
+document.getElementById('login').style.display='none';
+document.getElementById('main').style.display='block';
+document.getElementById('topbar').style.display='flex';
+goScreen('home'); renderHome();
 }
 
 // ══════════════════════════════════════════════
 // NAV
 // ══════════════════════════════════════════════
 function goScreen(s){
-  ['home','cust','cycle'].forEach(x=>document.getElementById('sc-'+x).style.display=x===s?'block':'none');
-  ST.screen=s; updateTopbar();
-  document.getElementById('sc-'+s).scrollTop=0;
+['home','cust','cycle'].forEach(x=>document.getElementById('sc-'+x).style.display=x===s?'block':'none');
+ST.screen=s; updateTopbar();
+document.getElementById('sc-'+s).scrollTop=0;
 }
 function updateTopbar(){
-  const c=getCust(),cy=getCycle();
-  document.getElementById('topbar-title').textContent=
-    ST.screen==='home'?'Manager Card 💳':
-    ST.screen==='cust'?(c?.name||''):
-    `${MONTHS[(cy?.month||1)-1]} ${cy?.year||''}`;
-  document.getElementById('btn-back').style.display=ST.screen==='home'?'none':'flex';
-  document.getElementById('btn-add').textContent=ST.screen==='home'?'👤':ST.screen==='cust'?'📅':'💳';
+const c=getCust(),cy=getCycle();
+document.getElementById('topbar-title').textContent=
+ST.screen==='home'?'Manager Card 💳':
+ST.screen==='cust'?(c?.name||''):
+`${MONTHS[(cy?.month||1)-1]} ${cy?.year||''}`;
+document.getElementById('btn-back').style.display=ST.screen==='home'?'none':'flex';
+document.getElementById('btn-add').textContent=ST.screen==='home'?'👤':ST.screen==='cust'?'📅':'💳';
 }
 document.getElementById('btn-back').onclick=()=>{
-  if(ST.screen==='cycle'){ST.selCycle=null;goScreen('cust');renderCust();}
-  else{ST.selCust=null;goScreen('home');renderHome();}
+if(ST.screen==='cycle'){ST.selCycle=null;goScreen('cust');renderCust();}
+else{ST.selCust=null;goScreen('home');renderHome();}
 };
 document.getElementById('btn-add').onclick=()=>{
-  if(ST.screen==='home')openCustModal();
-  else if(ST.screen==='cust')openCycleModal();
-  else openCardModal();
+if(ST.screen==='home')openCustModal();
+else if(ST.screen==='cust')openCycleModal();
+else openCardModal();
 };
 document.getElementById('btn-theme').onclick=()=>{ ST.dark=!ST.dark; saveData(); applyTheme(); };
 document.getElementById('btn-refresh').onclick=()=>location.reload();
@@ -342,21 +356,21 @@ document.getElementById('btn-menu').onclick=()=>openMenuSheet();
 // MENU
 // ══════════════════════════════════════════════
 function openMenuSheet(){
-  openSheet('⚙️ Cài đặt',`
-    <button class="save-btn" style="margin-bottom:10px;background:linear-gradient(90deg,#6366f1,#8b5cf6)" onclick="closeSheet();setTimeout(openChangePass,200)">🔐 Đổi mật khẩu</button>
-    <button class="save-btn" style="margin-bottom:10px;background:rgba(248,113,113,.15);color:var(--red);border:1px solid rgba(248,113,113,.3)" onclick="closeSheet();setTimeout(confirmLogout,200)">🚪 Đăng xuất</button>
-    <button class="save-btn" style="background:rgba(128,128,128,.12);color:var(--text2)" onclick="closeSheet()">Huỷ</button>`);
+openSheet('⚙️ Cài đặt',`
+<button class="save-btn" style="margin-bottom:10px;background:linear-gradient(90deg,#6366f1,#8b5cf6)" onclick="closeSheet();setTimeout(openChangePass,200)">🔐 Đổi mật khẩu</button>
+<button class="save-btn" style="margin-bottom:10px;background:rgba(248,113,113,.15);color:var(--red);border:1px solid rgba(248,113,113,.3)" onclick="closeSheet();setTimeout(confirmLogout,200)">🚪 Đăng xuất</button>
+<button class="save-btn" style="background:rgba(128,128,128,.12);color:var(--text2)" onclick="closeSheet()">Huỷ</button>`);
 }
 function confirmLogout(){
-  openSheet('🚪 Đăng xuất',`<p style="font-size:14px;color:var(--text2);margin-bottom:20px">Xác nhận đăng xuất?</p><div class="confirm-row"><button class="btn-cancel" onclick="closeSheet()">Huỷ</button><button class="btn-danger" onclick="doLogout()">Đăng xuất</button></div>`);
+openSheet('🚪 Đăng xuất',`<p style="font-size:14px;color:var(--text2);margin-bottom:20px">Xác nhận đăng xuất?</p><div class="confirm-row"><button class="btn-cancel" onclick="closeSheet()">Huỷ</button><button class="btn-danger" onclick="doLogout()">Đăng xuất</button></div>`);
 }
 function doLogout(){
-  closeSheet();
-  document.getElementById('main').style.display='none';
-  document.getElementById('topbar').style.display='none';
-  document.getElementById('login').style.display='flex';
-  pin=''; syncDots(); document.getElementById('login-btn').className='login-btn';
-  document.getElementById('pin-err').textContent='';
+closeSheet();
+document.getElementById('main').style.display='none';
+document.getElementById('topbar').style.display='none';
+document.getElementById('login').style.display='flex';
+pin=''; syncDots(); document.getElementById('login-btn').className='login-btn';
+document.getElementById('pin-err').textContent='';
 }
 
 // ══════════════════════════════════════════════
@@ -366,60 +380,60 @@ let cpStep=0,cpOld='',cpNew='',cpNew2='';
 function openChangePass(){ cpStep=0;cpOld='';cpNew='';cpNew2=''; openSheet('🔐 Đổi mật khẩu',''); renderCpSheet(); }
 function cpDotHtml(val,cls){ return Array.from({length:PIN_LEN}).map((_,i)=>`<div class="cp-dot${i<val.length?' '+cls:''}"></div>`).join(''); }
 function renderCpSheet(){
-  const labels=['Nhập mật khẩu hiện tại','Nhập mật khẩu mới (4 số)','Nhập lại mật khẩu mới'];
-  const vals=[cpOld,cpNew,cpNew2]; const cls=['old','new','ok'];
-  document.getElementById('sheet-body').innerHTML=`
-    <div class="step-label">${labels[cpStep]}</div>
-    <div class="cp-dots">${cpDotHtml(vals[cpStep],cls[cpStep])}</div>
-    <div id="cp-err" class="err-msg"></div>
-    <div class="cp-keypad" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0">
-      ${[1,2,3,4,5,6,7,8,9].map(n=>`<button style="padding:13px 0;border-radius:12px;border:none;cursor:pointer;background:var(--input);color:var(--text);font-size:20px;font-weight:700;font-family:var(--font)" onclick="cpTap('${n}')">${n}</button>`).join('')}
-      <div></div><button style="padding:13px 0;border-radius:12px;border:none;cursor:pointer;background:var(--input);color:var(--text);font-size:20px;font-weight:700;font-family:var(--font)" onclick="cpTap('0')">0</button>
-      <button style="padding:13px 0;border-radius:12px;border:none;cursor:pointer;background:rgba(128,128,128,.1);color:var(--text2);font-size:20px;font-weight:700;font-family:var(--font)" onclick="cpDel()">⌫</button>
-    </div>
-    <button class="btn-cancel" style="width:100%;margin-top:4px" onclick="closeSheet()">Huỷ</button>`;
+const labels=['Nhập mật khẩu hiện tại','Nhập mật khẩu mới (4 số)','Nhập lại mật khẩu mới'];
+const vals=[cpOld,cpNew,cpNew2]; const cls=['old','new','ok'];
+document.getElementById('sheet-body').innerHTML=`
+<div class="step-label">${labels[cpStep]}</div>
+<div class="cp-dots">${cpDotHtml(vals[cpStep],cls[cpStep])}</div>
+<div id="cp-err" class="err-msg"></div>
+<div class="cp-keypad" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0">
+${[1,2,3,4,5,6,7,8,9].map(n=>`<button style="padding:13px 0;border-radius:12px;border:none;cursor:pointer;background:var(--input);color:var(--text);font-size:20px;font-weight:700;font-family:var(--font)" onclick="cpTap('${n}')">${n}</button>`).join('')}
+<div></div><button style="padding:13px 0;border-radius:12px;border:none;cursor:pointer;background:var(--input);color:var(--text);font-size:20px;font-weight:700;font-family:var(--font)" onclick="cpTap('0')">0</button>
+<button style="padding:13px 0;border-radius:12px;border:none;cursor:pointer;background:rgba(128,128,128,.1);color:var(--text2);font-size:20px;font-weight:700;font-family:var(--font)" onclick="cpDel()">⌫</button>
+</div>
+<button class="btn-cancel" style="width:100%;margin-top:4px" onclick="closeSheet()">Huỷ</button>`;
 }
 function cpTap(d){
-  if([cpOld,cpNew,cpNew2][cpStep].length>=PIN_LEN)return;
-  if(cpStep===0)cpOld+=d; else if(cpStep===1)cpNew+=d; else cpNew2+=d;
-  renderCpSheet();
-  if([cpOld,cpNew,cpNew2][cpStep].length===PIN_LEN) setTimeout(cpNext,150);
+if([cpOld,cpNew,cpNew2][cpStep].length>=PIN_LEN)return;
+if(cpStep===0)cpOld+=d; else if(cpStep===1)cpNew+=d; else cpNew2+=d;
+renderCpSheet();
+if([cpOld,cpNew,cpNew2][cpStep].length===PIN_LEN) setTimeout(cpNext,150);
 }
 function cpDel(){ if(cpStep===0)cpOld=cpOld.slice(0,-1); else if(cpStep===1)cpNew=cpNew.slice(0,-1); else cpNew2=cpNew2.slice(0,-1); renderCpSheet(); }
 function cpNext(){
-  if(cpStep===0){ if(cpOld!==ST.pass){document.getElementById('cp-err').textContent='❌ Mật khẩu hiện tại không đúng!';cpOld='';renderCpSheet();return;} cpStep=1;renderCpSheet(); }
-  else if(cpStep===1){ cpStep=2; renderCpSheet(); }
-  else{ if(cpNew!==cpNew2){document.getElementById('cp-err').textContent='❌ Mật khẩu mới không khớp!';cpNew='';cpNew2='';cpStep=1;renderCpSheet();return;} ST.pass=cpNew; saveData(); closeSheet(); toast('✅ Đổi mật khẩu thành công!'); }
+if(cpStep===0){ if(cpOld!==ST.pass){document.getElementById('cp-err').textContent='❌ Mật khẩu hiện tại không đúng!';cpOld='';renderCpSheet();return;} cpStep=1;renderCpSheet(); }
+else if(cpStep===1){ cpStep=2; renderCpSheet(); }
+else{ if(cpNew!==cpNew2){document.getElementById('cp-err').textContent='❌ Mật khẩu mới không khớp!';cpNew='';cpNew2='';cpStep=1;renderCpSheet();return;} ST.pass=cpNew; saveData(); closeSheet(); toast('✅ Đổi mật khẩu thành công!'); }
 }
 
 // ══════════════════════════════════════════════
 // HOME
 // ══════════════════════════════════════════════
 function renderHome(){
-  const el=document.getElementById('sc-home');
-  const cs=ST.customers||[];
-  let h='';
-  if(!cs.length){
-    h=`<div class="empty"><div class="empty-icon">👤</div><p style="font-weight:600">Chưa có khách nào</p><p style="font-size:13px;margin-top:5px">Nhấn 👤 góc phải để thêm</p></div>`;
-  } else {
-    cs.forEach(c=>{
-      const lc=latestCy(c);
-      const tf=lc?lc.cards.reduce((s,cd)=>s+fee(cd.dao,cd.rate),0):0;
-      const tl=lc?lc.cards.reduce((s,cd)=>s+cd.limit,0):0;
-      const dn=lc?lc.cards.filter(cd=>cd.daDaoXong).length:0;
-      const tt=lc?lc.cards.length:0;
-      h+=`<div class="card clickable" onclick="selCust('${c.id}')">
-        <div class="row" style="margin-bottom:${lc?'11px':'0'}">
-          <div style="width:46px;height:46px;border-radius:14px;background:${c.color};display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;flex-shrink:0">${c.name.charAt(0)}</div>
-          <div style="flex:1;min-width:0"><div style="font-weight:800;font-size:15px">${c.name}</div><div style="font-size:12px;color:var(--text2);margin-top:1px">${c.phone||'—'} · ${c.cycles.length} chu kỳ</div></div>
-          <div style="text-align:right;margin-right:6px"><div style="font-weight:800;font-size:16px;color:var(--gold)">${fmtTr(tl)}</div><div style="font-size:11px;color:var(--text3)">hạn mức</div></div>
-          <button class="ib" onclick="event.stopPropagation();openCustModal('${c.id}')">✏️</button>
-        </div>
-        ${lc?`<div class="row" style="margin-bottom:5px;font-size:12px"><span style="flex:1;color:var(--text2)">${MONTHS[lc.month-1]} ${lc.year} · ${dn}/${tt} đáo xong</span><span style="color:var(--red);font-weight:700">${fmtK(tf)}</span></div><div class="prog-track"><div class="prog-fill" style="width:${tt?dn/tt*100:0}%"></div></div>`:''}
-      </div>`;
-    });
-  }
-  el.innerHTML=h;
+const el=document.getElementById('sc-home');
+const cs=ST.customers||[];
+let h='';
+if(!cs.length){
+h=`<div class="empty"><div class="empty-icon">👤</div><p style="font-weight:600">Chưa có khách nào</p><p style="font-size:13px;margin-top:5px">Nhấn 👤 góc phải để thêm</p></div>`;
+} else {
+cs.forEach(c=>{
+const lc=latestCy(c);
+const tf=lc?lc.cards.reduce((s,cd)=>s+fee(cd.dao,cd.rate),0):0;
+const tl=lc?lc.cards.reduce((s,cd)=>s+cd.limit,0):0;
+const dn=lc?lc.cards.filter(cd=>cd.daDaoXong).length:0;
+const tt=lc?lc.cards.length:0;
+h+=`<div class="card clickable" onclick="selCust('${c.id}')">
+<div class="row" style="margin-bottom:${lc?'11px':'0'}">
+<div style="width:46px;height:46px;border-radius:14px;background:${c.color};display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;flex-shrink:0">${c.name.charAt(0)}</div>
+<div style="flex:1;min-width:0"><div style="font-weight:800;font-size:15px">${c.name}</div><div style="font-size:12px;color:var(--text2);margin-top:1px">${c.phone||'—'} · ${c.cycles.length} chu kỳ</div></div>
+<div style="text-align:right;margin-right:6px"><div style="font-weight:800;font-size:16px;color:var(--gold)">${fmtTr(tl)}</div><div style="font-size:11px;color:var(--text3)">hạn mức</div></div>
+<button class="ib" onclick="event.stopPropagation();openCustModal('${c.id}')">✏️</button>
+</div>
+${lc?`<div class="row" style="margin-bottom:5px;font-size:12px"><span style="flex:1;color:var(--text2)">${MONTHS[lc.month-1]} ${lc.year} · ${dn}/${tt} đáo xong</span><span style="color:var(--red);font-weight:700">${fmtK(tf)}</span></div><div class="prog-track"><div class="prog-fill" style="width:${tt?dn/tt*100:0}%"></div></div>`:''}
+</div>`;
+});
+}
+el.innerHTML=h;
 }
 function selCust(id){ ST.selCust=id; goScreen('cust'); renderCust(); }
 
@@ -427,38 +441,38 @@ function selCust(id){ ST.selCust=id; goScreen('cust'); renderCust(); }
 // CUSTOMER SCREEN
 // ══════════════════════════════════════════════
 function renderCust(){
-  const cust=getCust(); if(!cust)return;
-  const el=document.getElementById('sc-cust');
-  const sorted=[...cust.cycles].sort((a,b)=>b.year*12+b.month-(a.year*12+a.month));
-  let h=`<div class="card" style="cursor:default;display:flex;align-items:center;gap:12px;margin-bottom:14px">
-    <div style="width:50px;height:50px;border-radius:16px;background:${cust.color};display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#fff">${cust.name.charAt(0)}</div>
-    <div style="flex:1"><div style="font-weight:800;font-size:16px">${cust.name}</div><div style="font-size:13px;color:var(--text2);margin-top:2px">${cust.phone||'Chưa có SĐT'}</div></div>
-    <button class="ib" onclick="openCustModal('${cust.id}')">✏️</button>
-    <button class="ib" style="background:rgba(248,113,113,.15);color:var(--red)" onclick="confirmDelCust('${cust.id}','${esc(cust.name)}')">🗑</button>
-  </div>
-  <div class="row" style="margin-bottom:10px">
-    <span style="flex:1;font-weight:700;font-size:14px;color:var(--text2)">Chu kỳ đáo thẻ</span>
-    <button class="pill" style="background:rgba(247,151,30,.18);color:var(--gold);border-color:rgba(247,151,30,.3)" onclick="openCycleModal()">+ Tạo chu kỳ</button>
-  </div>`;
-  if(!sorted.length){ h+=`<div class="empty"><div class="empty-icon">📭</div><p style="font-weight:600">Chưa có chu kỳ</p><p style="font-size:13px;margin-top:4px">Nhấn + Tạo chu kỳ để bắt đầu</p></div>`; }
-  else sorted.forEach(cy=>{
-    const tf=cy.cards.reduce((s,c)=>s+fee(c.dao,c.rate),0);
-    const dn=cy.cards.filter(c=>c.daDaoXong).length;
-    const pd=cy.cards.filter(c=>c.khachDaThanhToan).length;
-    const pct=cy.cards.length?dn/cy.cards.length:0;
-    const all=dn===cy.cards.length&&cy.cards.length>0;
-    h+=`<div class="card clickable${all?' done':''}" onclick="selCycle('${cy.id}')">
-      <div class="row" style="margin-bottom:9px">
-        <div style="flex:1"><div style="font-weight:800;font-size:15px">${MONTHS[cy.month-1]} ${cy.year} ${all?'✅':''}</div><div style="font-size:12px;color:var(--text2);margin-top:1px">${cy.cards.length} thẻ · đáo ${dn}/${cy.cards.length} · TT ${pd}/${cy.cards.length}</div></div>
-        <span style="font-weight:800;font-size:15px;color:var(--red)">${fmtK(tf)}</span>
-        <button class="pill" style="font-size:11px;padding:5px 8px;background:rgba(96,165,250,.12);color:var(--blue);border-color:rgba(96,165,250,.22)" onclick="event.stopPropagation();confirmClone('${cust.id}','${cy.id}')">🔁</button>
-        <button class="ib" style="width:30px;height:30px" onclick="event.stopPropagation();openCycleModal('${cy.id}')">✏️</button>
-        <button class="ib" style="width:30px;height:30px;background:rgba(248,113,113,.12);color:var(--red)" onclick="event.stopPropagation();confirmDelCycle('${cust.id}','${cy.id}','${MONTHS[cy.month-1]} ${cy.year}')">🗑</button>
-      </div>
-      <div class="prog-track"><div class="prog-fill" style="width:${pct*100}%;${all?'background:var(--green)':''}"></div></div>
-    </div>`;
-  });
-  el.innerHTML=h;
+const cust=getCust(); if(!cust)return;
+const el=document.getElementById('sc-cust');
+const sorted=[...cust.cycles].sort((a,b)=>b.year*12+b.month-(a.year*12+a.month));
+let h=`<div class="card" style="cursor:default;display:flex;align-items:center;gap:12px;margin-bottom:14px">
+<div style="width:50px;height:50px;border-radius:16px;background:${cust.color};display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#fff">${cust.name.charAt(0)}</div>
+<div style="flex:1"><div style="font-weight:800;font-size:16px">${cust.name}</div><div style="font-size:13px;color:var(--text2);margin-top:2px">${cust.phone||'Chưa có SĐT'}</div></div>
+<button class="ib" onclick="openCustModal('${cust.id}')">✏️</button>
+<button class="ib" style="background:rgba(248,113,113,.15);color:var(--red)" onclick="confirmDelCust('${cust.id}','${esc(cust.name)}')">🗑</button>
+</div>
+<div class="row" style="margin-bottom:10px">
+<span style="flex:1;font-weight:700;font-size:14px;color:var(--text2)">Chu kỳ đáo thẻ</span>
+<button class="pill" style="background:rgba(247,151,30,.18);color:var(--gold);border-color:rgba(247,151,30,.3)" onclick="openCycleModal()">+ Tạo chu kỳ</button>
+</div>`;
+if(!sorted.length){ h+=`<div class="empty"><div class="empty-icon">📭</div><p style="font-weight:600">Chưa có chu kỳ</p><p style="font-size:13px;margin-top:4px">Nhấn + Tạo chu kỳ để bắt đầu</p></div>`; }
+else sorted.forEach(cy=>{
+const tf=cy.cards.reduce((s,c)=>s+fee(c.dao,c.rate),0);
+const dn=cy.cards.filter(c=>c.daDaoXong).length;
+const pd=cy.cards.filter(c=>c.khachDaThanhToan).length;
+const pct=cy.cards.length?dn/cy.cards.length:0;
+const all=dn===cy.cards.length&&cy.cards.length>0;
+h+=`<div class="card clickable${all?' done':''}" onclick="selCycle('${cy.id}')">
+<div class="row" style="margin-bottom:9px">
+<div style="flex:1"><div style="font-weight:800;font-size:15px">${MONTHS[cy.month-1]} ${cy.year} ${all?'✅':''}</div><div style="font-size:12px;color:var(--text2);margin-top:1px">${cy.cards.length} thẻ · đáo ${dn}/${cy.cards.length} · TT ${pd}/${cy.cards.length}</div></div>
+<span style="font-weight:800;font-size:15px;color:var(--red)">${fmtK(tf)}</span>
+<button class="pill" style="font-size:11px;padding:5px 8px;background:rgba(96,165,250,.12);color:var(--blue);border-color:rgba(96,165,250,.22)" onclick="event.stopPropagation();confirmClone('${cust.id}','${cy.id}')">🔁</button>
+<button class="ib" style="width:30px;height:30px" onclick="event.stopPropagation();openCycleModal('${cy.id}')">✏️</button>
+<button class="ib" style="width:30px;height:30px;background:rgba(248,113,113,.12);color:var(--red)" onclick="event.stopPropagation();confirmDelCycle('${cust.id}','${cy.id}','${MONTHS[cy.month-1]} ${cy.year}')">🗑</button>
+</div>
+<div class="prog-track"><div class="prog-fill" style="width:${pct*100}%;${all?'background:var(--green)':''}"></div></div>
+</div>`;
+});
+el.innerHTML=h;
 }
 function selCycle(id){ ST.selCycle=id; goScreen('cycle'); renderCycleScreen(); }
 
@@ -466,83 +480,83 @@ function selCycle(id){ ST.selCycle=id; goScreen('cycle'); renderCycleScreen(); }
 // CYCLE SCREEN
 // ══════════════════════════════════════════════
 function renderCycleScreen(){
-  const cust=getCust(),cy=getCycle(); if(!cust||!cy)return;
-  const el=document.getElementById('sc-cycle');
-  const sorted=[...cy.cards].sort((a,b)=>(b.daDaoXong?1:0)-(a.daDaoXong?1:0));
-  const tl=cy.cards.reduce((s,c)=>s+c.limit,0);
-  const tf=cy.cards.reduce((s,c)=>s+fee(c.dao,c.rate),0);
-  const dn=cy.cards.filter(c=>c.daDaoXong).length;
-  const pd=cy.cards.filter(c=>c.khachDaThanhToan).length;
-  const pct=cy.cards.length?dn/cy.cards.length:0;
-  let h=`<div class="card" style="cursor:default;margin-bottom:14px">
-    <div class="row" style="margin-bottom:12px">
-      <div style="width:38px;height:38px;border-radius:12px;background:${cust.color};display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;flex-shrink:0">${cust.name.charAt(0)}</div>
-      <div style="flex:1"><div style="font-weight:800;font-size:14px">${cust.name}</div><div style="font-size:12px;color:var(--text2)">${MONTHS[cy.month-1]} ${cy.year}</div></div>
-      <button class="pill" style="font-size:11px;background:rgba(96,165,250,.12);color:var(--blue);border-color:rgba(96,165,250,.22)" onclick="confirmClone('${cust.id}','${cy.id}')">🔁 Clone</button>
-      <button class="ib" onclick="openCycleModal('${cy.id}')">✏️</button>
-    </div>
-    <div class="kpi-grid">
-      <div class="kpi-tile"><div class="kpi-v" style="color:var(--gold)">${fmtTr(tl)}</div><div class="kpi-l">Hạn mức</div></div>
-      <div class="kpi-tile"><div class="kpi-v" style="color:var(--red)">${fmtK(tf)}</div><div class="kpi-l">Phí tháng</div></div>
-      <div class="kpi-tile"><div class="kpi-v" style="color:var(--green)">${dn}/${cy.cards.length}</div><div class="kpi-l">Đáo xong</div></div>
-      <div class="kpi-tile"><div class="kpi-v" style="color:var(--blue)">${pd}/${cy.cards.length}</div><div class="kpi-l">Đã TT</div></div>
-    </div>
-    <div class="prog-track" style="margin-bottom:12px"><div class="prog-fill" style="width:${pct*100}%"></div></div>
-    <div style="display:flex;gap:8px">
-      <button class="pill" style="flex:1;justify-content:center;padding:10px 0;background:rgba(167,139,250,.12);color:var(--purple);border-color:rgba(167,139,250,.28);font-size:13px" onclick="doShare()">📸 Chia sẻ</button>
-      <button class="pill" style="flex:1;justify-content:center;padding:10px 0;background:rgba(74,222,128,.12);color:var(--green);border-color:rgba(74,222,128,.28);font-size:13px" onclick="openCardModal()">➕ Thêm thẻ</button>
-    </div>
-  </div>`;
-  if(!sorted.length){ h+=`<div class="empty"><div class="empty-icon">💳</div><p style="font-weight:600">Chưa có thẻ</p><p style="font-size:13px;margin-top:4px">Nhấn ➕ để thêm thẻ</p></div>`; }
-  else sorted.forEach((card,i)=>{
-    const f=fee(card.dao,card.rate); const lb=LOGO_BG[card.logo]||'#555'; const isTop=i===0&&card.daDaoXong;
-    h+=`<div class="card${card.daDaoXong?' done':''}" style="position:relative;cursor:default;${isTop?'margin-top:10px':''}">
-      ${isTop?'<div class="badge-top">🏆 ĐÃ ĐÁO</div>':''}
-      <div class="row" style="margin-bottom:9px">
-        <div style="width:36px;height:36px;border-radius:11px;background:${lb};color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0">${card.logo}</div>
-        <div style="flex:1;min-width:0"><div style="font-weight:700;font-size:14.5px">${card.bank}</div><div style="font-size:11px;color:var(--text2)">Đáo ${fmtTr(card.dao)} · ${card.rate}%</div></div>
-        <div style="text-align:right;margin-right:4px"><div style="font-weight:800;font-size:16px;color:var(--gold)">${fmtTr(card.limit)}</div><div style="font-size:10px;color:var(--text3)">hạn mức</div></div>
-        <button class="ib" onclick="openCardModal('${card.id}')">✏️</button>
-      </div>
-      <div style="margin-bottom:8px">
-        <span class="chip" style="background:rgba(167,139,250,.15);color:#a78bfa;border:1px solid rgba(167,139,250,.25)">📅 SK: ${card.saoKe}</span>
-        <span class="chip" style="background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.25)">💳 TT: ${card.thanhToan}</span>
-        <span class="chip" style="background:rgba(248,113,113,.15);color:var(--red);border:1px solid rgba(248,113,113,.25);font-weight:700">${fmtVND(f)}</span>
-      </div>
-      <div style="display:flex;gap:8px">
-        <button class="tog${card.daDaoXong?' g':''}" onclick="toggleCard('${cy.id}','${card.id}','daDaoXong')">${card.daDaoXong?'✅':'⭕'} Đã đáo xong</button>
-        <button class="tog${card.khachDaThanhToan?' b':''}" onclick="toggleCard('${cy.id}','${card.id}','khachDaThanhToan')">${card.khachDaThanhToan?'✅':'⭕'} Khách đã TT</button>
-      </div>
-    </div>`;
-  });
-  if(cy.cards.length){
-    h+=`<div class="card" style="cursor:default;margin-top:4px"><div style="font-weight:700;font-size:13px;color:var(--text2);margin-bottom:10px">📊 Chi tiết phí từng thẻ</div>`;
-    cy.cards.forEach(c=>{
-      const f=fee(c.dao,c.rate);
-      h+=`<div class="stats-row"><div><div style="font-size:13px;font-weight:600">${c.bank}</div><div style="font-size:11px;color:var(--text2)">${fmtTr(c.dao)} × ${c.rate}%</div></div>
-        <div style="display:flex;align-items:center;gap:6px">
-          ${c.daDaoXong?`<span style="font-size:10px;color:var(--green);background:rgba(74,222,128,.12);padding:2px 6px;border-radius:99px;font-weight:700">✓ Đáo</span>`:''}
-          ${c.khachDaThanhToan?`<span style="font-size:10px;color:var(--blue);background:rgba(96,165,250,.12);padding:2px 6px;border-radius:99px;font-weight:700">✓ TT</span>`:''}
-          <span style="font-weight:800;color:var(--red);font-size:14px">${fmtVND(f)}</span>
-        </div></div>`;
-    });
-    h+=`<div style="display:flex;justify-content:flex-end;padding-top:10px;margin-top:8px;border-top:1px solid var(--border)"><span style="font-weight:900;font-size:20px;color:var(--gold)">${fmtVND(tf)}</span></div></div>`;
-  }
-  el.innerHTML=h;
+const cust=getCust(),cy=getCycle(); if(!cust||!cy)return;
+const el=document.getElementById('sc-cycle');
+const sorted=[...cy.cards].sort((a,b)=>(b.daDaoXong?1:0)-(a.daDaoXong?1:0));
+const tl=cy.cards.reduce((s,c)=>s+c.limit,0);
+const tf=cy.cards.reduce((s,c)=>s+fee(c.dao,c.rate),0);
+const dn=cy.cards.filter(c=>c.daDaoXong).length;
+const pd=cy.cards.filter(c=>c.khachDaThanhToan).length;
+const pct=cy.cards.length?dn/cy.cards.length:0;
+let h=`<div class="card" style="cursor:default;margin-bottom:14px">
+<div class="row" style="margin-bottom:12px">
+<div style="width:38px;height:38px;border-radius:12px;background:${cust.color};display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;flex-shrink:0">${cust.name.charAt(0)}</div>
+<div style="flex:1"><div style="font-weight:800;font-size:14px">${cust.name}</div><div style="font-size:12px;color:var(--text2)">${MONTHS[cy.month-1]} ${cy.year}</div></div>
+<button class="pill" style="font-size:11px;background:rgba(96,165,250,.12);color:var(--blue);border-color:rgba(96,165,250,.22)" onclick="confirmClone('${cust.id}','${cy.id}')">🔁 Clone</button>
+<button class="ib" onclick="openCycleModal('${cy.id}')">✏️</button>
+</div>
+<div class="kpi-grid">
+<div class="kpi-tile"><div class="kpi-v" style="color:var(--gold)">${fmtTr(tl)}</div><div class="kpi-l">Hạn mức</div></div>
+<div class="kpi-tile"><div class="kpi-v" style="color:var(--red)">${fmtK(tf)}</div><div class="kpi-l">Phí tháng</div></div>
+<div class="kpi-tile"><div class="kpi-v" style="color:var(--green)">${dn}/${cy.cards.length}</div><div class="kpi-l">Đáo xong</div></div>
+<div class="kpi-tile"><div class="kpi-v" style="color:var(--blue)">${pd}/${cy.cards.length}</div><div class="kpi-l">Đã TT</div></div>
+</div>
+<div class="prog-track" style="margin-bottom:12px"><div class="prog-fill" style="width:${pct*100}%"></div></div>
+<div style="display:flex;gap:8px">
+<button class="pill" style="flex:1;justify-content:center;padding:10px 0;background:rgba(167,139,250,.12);color:var(--purple);border-color:rgba(167,139,250,.28);font-size:13px" onclick="doShare()">📸 Chia sẻ</button>
+<button class="pill" style="flex:1;justify-content:center;padding:10px 0;background:rgba(74,222,128,.12);color:var(--green);border-color:rgba(74,222,128,.28);font-size:13px" onclick="openCardModal()">➕ Thêm thẻ</button>
+</div>
+</div>`;
+if(!sorted.length){ h+=`<div class="empty"><div class="empty-icon">💳</div><p style="font-weight:600">Chưa có thẻ</p><p style="font-size:13px;margin-top:4px">Nhấn ➕ để thêm thẻ</p></div>`; }
+else sorted.forEach((card,i)=>{
+const f=fee(card.dao,card.rate); const lb=LOGO_BG[card.logo]||'#555'; const isTop=i===0&&card.daDaoXong;
+h+=`<div class="card${card.daDaoXong?' done':''}" style="position:relative;cursor:default;${isTop?'margin-top:10px':''}">
+${isTop?'<div class="badge-top">🏆 ĐÃ ĐÁO</div>':''}
+<div class="row" style="margin-bottom:9px">
+<div style="width:36px;height:36px;border-radius:11px;background:${lb};color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0">${card.logo}</div>
+<div style="flex:1;min-width:0"><div style="font-weight:700;font-size:14.5px">${card.bank}</div><div style="font-size:11px;color:var(--text2)">Đáo ${fmtTr(card.dao)} · ${card.rate}%</div></div>
+<div style="text-align:right;margin-right:4px"><div style="font-weight:800;font-size:16px;color:var(--gold)">${fmtTr(card.limit)}</div><div style="font-size:10px;color:var(--text3)">hạn mức</div></div>
+<button class="ib" onclick="openCardModal('${card.id}')">✏️</button>
+</div>
+<div style="margin-bottom:8px">
+<span class="chip" style="background:rgba(167,139,250,.15);color:#a78bfa;border:1px solid rgba(167,139,250,.25)">📅 SK: ${card.saoKe}</span>
+<span class="chip" style="background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.25)">💳 TT: ${card.thanhToan}</span>
+<span class="chip" style="background:rgba(248,113,113,.15);color:var(--red);border:1px solid rgba(248,113,113,.25);font-weight:700">${fmtVND(f)}</span>
+</div>
+<div style="display:flex;gap:8px">
+<button class="tog${card.daDaoXong?' g':''}" onclick="toggleCard('${cy.id}','${card.id}','daDaoXong')">${card.daDaoXong?'✅':'⭕'} Đã đáo xong</button>
+<button class="tog${card.khachDaThanhToan?' b':''}" onclick="toggleCard('${cy.id}','${card.id}','khachDaThanhToan')">${card.khachDaThanhToan?'✅':'⭕'} Khách đã TT</button>
+</div>
+</div>`;
+});
+if(cy.cards.length){
+h+=`<div class="card" style="cursor:default;margin-top:4px"><div style="font-weight:700;font-size:13px;color:var(--text2);margin-bottom:10px">📊 Chi tiết phí từng thẻ</div>`;
+cy.cards.forEach(c=>{
+const f=fee(c.dao,c.rate);
+h+=`<div class="stats-row"><div><div style="font-size:13px;font-weight:600">${c.bank}</div><div style="font-size:11px;color:var(--text2)">${fmtTr(c.dao)} × ${c.rate}%</div></div>
+<div style="display:flex;align-items:center;gap:6px">
+${c.daDaoXong?`<span style="font-size:10px;color:var(--green);background:rgba(74,222,128,.12);padding:2px 6px;border-radius:99px;font-weight:700">✓ Đáo</span>`:''}
+${c.khachDaThanhToan?`<span style="font-size:10px;color:var(--blue);background:rgba(96,165,250,.12);padding:2px 6px;border-radius:99px;font-weight:700">✓ TT</span>`:''}
+<span style="font-weight:800;color:var(--red);font-size:14px">${fmtVND(f)}</span>
+</div></div>`;
+});
+h+=`<div style="display:flex;justify-content:flex-end;padding-top:10px;margin-top:8px;border-top:1px solid var(--border)"><span style="font-weight:900;font-size:20px;color:var(--gold)">${fmtVND(tf)}</span></div></div>`;
+}
+el.innerHTML=h;
 }
 function toggleCard(cyId,cardId,field){
-  const cust=getCust(); if(!cust)return;
-  ST.customers=ST.customers.map(c=>c.id!==cust.id?c:{...c,cycles:c.cycles.map(cy=>cy.id!==cyId?cy:{...cy,cards:cy.cards.map(cd=>cd.id!==cardId?cd:{...cd,[field]:!cd[field]})})});
-  saveData(); renderCycleScreen();
+const cust=getCust(); if(!cust)return;
+ST.customers=ST.customers.map(c=>c.id!==cust.id?c:{...c,cycles:c.cycles.map(cy=>cy.id!==cyId?cy:{...cy,cards:cy.cards.map(cd=>cd.id!==cardId?cd:{...cd,[field]:!cd[field]})})});
+saveData(); renderCycleScreen();
 }
 function doShare(){
-  const cust=getCust(),cy=getCycle(); if(!cust||!cy)return;
-  const dn=cy.cards.filter(c=>c.daDaoXong).length;
-  const tf=cy.cards.reduce((s,c)=>s+fee(c.dao,c.rate),0);
-  const lines=cy.cards.filter(c=>c.daDaoXong).map(c=>`✅ ${c.bank}: ${fmtTr(c.dao)} – phí ${fmtVND(fee(c.dao,c.rate))}`).join('\n');
-  const msg=`💳 ${cust.name}\n📅 ${MONTHS[cy.month-1]} ${cy.year}\n✅ Đã đáo: ${dn}/${cy.cards.length} thẻ\n${lines}\n💸 Tổng phí: ${fmtVND(tf)}\n\n🙏 Cảm ơn anh/chị đã tin tưởng!`;
-  if(navigator.share){navigator.share({title:cust.name,text:msg}).catch(()=>{});}
-  else{try{navigator.clipboard.writeText(msg);toast('Đã sao chép 📋');}catch{toast('Dùng nút chụp màn hình 📸');}}
+const cust=getCust(),cy=getCycle(); if(!cust||!cy)return;
+const dn=cy.cards.filter(c=>c.daDaoXong).length;
+const tf=cy.cards.reduce((s,c)=>s+fee(c.dao,c.rate),0);
+const lines=cy.cards.filter(c=>c.daDaoXong).map(c=>`✅ ${c.bank}: ${fmtTr(c.dao)} – phí ${fmtVND(fee(c.dao,c.rate))}`).join('\n');
+const msg=`💳 ${cust.name}\n📅 ${MONTHS[cy.month-1]} ${cy.year}\n✅ Đã đáo: ${dn}/${cy.cards.length} thẻ\n${lines}\n💸 Tổng phí: ${fmtVND(tf)}\n\n🙏 Cảm ơn anh/chị đã tin tưởng!`;
+if(navigator.share){navigator.share({title:cust.name,text:msg}).catch(()=>{});}
+else{try{navigator.clipboard.writeText(msg);toast('Đã sao chép 📋');}catch{toast('Dùng nút chụp màn hình 📸');}}
 }
 
 // ══════════════════════════════════════════════
@@ -556,26 +570,26 @@ function closeSheet(){ document.getElementById('sheet-overlay').classList.remove
 // CUSTOMER MODAL
 // ══════════════════════════════════════════════
 function openCustModal(id){
-  const c=id?ST.customers.find(x=>x.id===id):null; const isNew=!c; const col=c?.color||COLORS[0];
-  const sw=COLORS.map(x=>`<div class="swatch${col===x?' sel':''}" style="background:${x}" onclick="pickColor('${x}')"></div>`).join('');
-  openSheet(isNew?'👤 Thêm khách mới':'✏️ Sửa khách',`
-    <div class="mf"><label>Tên khách hàng</label><input id="cf-name" value="${esc(c?.name||'')}" placeholder="Nhập tên..."/></div>
-    <div class="mf"><label>Số điện thoại</label><input id="cf-phone" type="tel" value="${esc(c?.phone||'')}" placeholder="09xx..."/></div>
-    <div class="mf"><label>Màu đại diện</label><div class="swatches">${sw}</div></div>
-    <input type="hidden" id="cf-color" value="${col}"/>
-    ${!isNew?`<button class="del-btn" onclick="closeSheet();setTimeout(()=>confirmDelCust('${c.id}','${esc(c.name)}'),200)">🗑 Xoá khách này</button>`:''}
-    <button class="save-btn" onclick="saveCust('${id||''}')">💾 ${isNew?'Thêm khách':'Lưu'}</button>`);
+const c=id?ST.customers.find(x=>x.id===id):null; const isNew=!c; const col=c?.color||COLORS[0];
+const sw=COLORS.map(x=>`<div class="swatch${col===x?' sel':''}" style="background:${x}" onclick="pickColor('${x}')"></div>`).join('');
+openSheet(isNew?'👤 Thêm khách mới':'✏️ Sửa khách',`
+<div class="mf"><label>Tên khách hàng</label><input id="cf-name" value="${esc(c?.name||'')}" placeholder="Nhập tên..."/></div>
+<div class="mf"><label>Số điện thoại</label><input id="cf-phone" type="tel" value="${esc(c?.phone||'')}" placeholder="09xx..."/></div>
+<div class="mf"><label>Màu đại diện</label><div class="swatches">${sw}</div></div>
+<input type="hidden" id="cf-color" value="${col}"/>
+${!isNew?`<button class="del-btn" onclick="closeSheet();setTimeout(()=>confirmDelCust('${c.id}','${esc(c.name)}'),200)">🗑 Xoá khách này</button>`:''}
+<button class="save-btn" onclick="saveCust('${id||''}')">💾 ${isNew?'Thêm khách':'Lưu'}</button>`);
 }
 function pickColor(col){ document.getElementById('cf-color').value=col; document.querySelectorAll('.swatch').forEach(el=>el.classList.toggle('sel',el.style.background===col)); }
 function saveCust(id){
-  const name=document.getElementById('cf-name').value.trim();
-  const phone=document.getElementById('cf-phone').value.trim();
-  const color=document.getElementById('cf-color').value;
-  if(!name)return toast('Vui lòng nhập tên khách',false);
-  if(id){ ST.customers=ST.customers.map(c=>c.id===id?{...c,name,phone,color}:c); toast('Đã lưu khách ✓'); }
-  else{ ST.customers.push({id:uid(),name,phone,color,cycles:[]}); toast('Thêm khách thành công ✓'); }
-  saveData(); closeSheet();
-  if(ST.screen==='home')renderHome(); else renderCust();
+const name=document.getElementById('cf-name').value.trim();
+const phone=document.getElementById('cf-phone').value.trim();
+const color=document.getElementById('cf-color').value;
+if(!name)return toast('Vui lòng nhập tên khách',false);
+if(id){ ST.customers=ST.customers.map(c=>c.id===id?{...c,name,phone,color}:c); toast('Đã lưu khách ✓'); }
+else{ ST.customers.push({id:uid(),name,phone,color,cycles:[]}); toast('Thêm khách thành công ✓'); }
+saveData(); closeSheet();
+if(ST.screen==='home')renderHome(); else renderCust();
 }
 function confirmDelCust(id,name){ openSheet('⚠️ Xác nhận',`<p style="font-weight:700;font-size:15px;margin-bottom:8px">Xoá khách "${name}"?</p><p style="font-size:13px;color:var(--text2);margin-bottom:20px">Toàn bộ chu kỳ và thẻ sẽ bị xoá vĩnh viễn.</p><div class="confirm-row"><button class="btn-cancel" onclick="closeSheet()">Huỷ</button><button class="btn-danger" onclick="delCust('${id}')">🗑 Xoá</button></div>`); }
 function delCust(id){ ST.customers=ST.customers.filter(c=>c.id!==id); saveData(); closeSheet(); ST.selCust=null; ST.selCycle=null; goScreen('home'); renderHome(); toast('Đã xoá khách',false); }
@@ -584,72 +598,72 @@ function delCust(id){ ST.customers=ST.customers.filter(c=>c.id!==id); saveData()
 // CYCLE MODAL
 // ══════════════════════════════════════════════
 function openCycleModal(cyId){
-  const cust=getCust(); if(!cust)return;
-  const cy=cyId?cust.cycles.find(x=>x.id===cyId):null; const isNew=!cy; const now=new Date();
-  const mo=cy?.month||(now.getMonth()+1); const yr=cy?.year||now.getFullYear();
-  const mos=MONTHS.map((m,i)=>`<option value="${i+1}"${mo===i+1?' selected':''}>${m}</option>`).join('');
-  const yrs=[2024,2025,2026,2027,2028].map(y=>`<option value="${y}"${yr===y?' selected':''}>${y}</option>`).join('');
-  openSheet(isNew?'📅 Tạo chu kỳ mới':'✏️ Sửa chu kỳ',`
-    <div class="grid2"><div class="mf"><label>Tháng</label><select id="cyf-m">${mos}</select></div><div class="mf"><label>Năm</label><select id="cyf-y">${yrs}</select></div></div>
-    <div class="mf"><label>Ghi chú</label><input id="cyf-note" value="${esc(cy?.note||'')}" placeholder="Tuỳ chọn..."/></div>
-    <button class="save-btn" onclick="saveCycle('${cust.id}','${cyId||''}')">💾 ${isNew?'Tạo chu kỳ':'Lưu'}</button>`);
+const cust=getCust(); if(!cust)return;
+const cy=cyId?cust.cycles.find(x=>x.id===cyId):null; const isNew=!cy; const now=new Date();
+const mo=cy?.month||(now.getMonth()+1); const yr=cy?.year||now.getFullYear();
+const mos=MONTHS.map((m,i)=>`<option value="${i+1}"${mo===i+1?' selected':''}>${m}</option>`).join('');
+const yrs=[2024,2025,2026,2027,2028].map(y=>`<option value="${y}"${yr===y?' selected':''}>${y}</option>`).join('');
+openSheet(isNew?'📅 Tạo chu kỳ mới':'✏️ Sửa chu kỳ',`
+<div class="grid2"><div class="mf"><label>Tháng</label><select id="cyf-m">${mos}</select></div><div class="mf"><label>Năm</label><select id="cyf-y">${yrs}</select></div></div>
+<div class="mf"><label>Ghi chú</label><input id="cyf-note" value="${esc(cy?.note||'')}" placeholder="Tuỳ chọn..."/></div>
+<button class="save-btn" onclick="saveCycle('${cust.id}','${cyId||''}')">💾 ${isNew?'Tạo chu kỳ':'Lưu'}</button>`);
 }
 function saveCycle(custId,cyId){
-  const month=+document.getElementById('cyf-m').value, year=+document.getElementById('cyf-y').value, note=document.getElementById('cyf-note').value.trim();
-  ST.customers=ST.customers.map(c=>{ if(c.id!==custId)return c; if(cyId)return{...c,cycles:c.cycles.map(cy=>cy.id===cyId?{...cy,month,year,note}:cy)}; return{...c,cycles:[...c.cycles,{id:uid(),month,year,note,cards:[]}]}; });
-  saveData(); closeSheet(); toast(cyId?'Lưu chu kỳ thành công ✓':'Tạo chu kỳ thành công ✓');
-  if(ST.screen==='cust')renderCust(); else if(ST.screen==='cycle'){updateTopbar();renderCycleScreen();}
+const month=+document.getElementById('cyf-m').value, year=+document.getElementById('cyf-y').value, note=document.getElementById('cyf-note').value.trim();
+ST.customers=ST.customers.map(c=>{ if(c.id!==custId)return c; if(cyId)return{...c,cycles:c.cycles.map(cy=>cy.id===cyId?{...cy,month,year,note}:cy)}; return{...c,cycles:[...c.cycles,{id:uid(),month,year,note,cards:[]}]}; });
+saveData(); closeSheet(); toast(cyId?'Lưu chu kỳ thành công ✓':'Tạo chu kỳ thành công ✓');
+if(ST.screen==='cust')renderCust(); else if(ST.screen==='cycle'){updateTopbar();renderCycleScreen();}
 }
 function confirmDelCycle(custId,cyId,label){ openSheet('⚠️ Xác nhận',`<p style="font-weight:700;font-size:15px;margin-bottom:8px">Xoá chu kỳ ${label}?</p><p style="font-size:13px;color:var(--text2);margin-bottom:20px">Toàn bộ thẻ sẽ bị xoá.</p><div class="confirm-row"><button class="btn-cancel" onclick="closeSheet()">Huỷ</button><button class="btn-danger" onclick="delCycle('${custId}','${cyId}')">🗑 Xoá</button></div>`); }
 function delCycle(custId,cyId){ ST.customers=ST.customers.map(c=>c.id!==custId?c:{...c,cycles:c.cycles.filter(x=>x.id!==cyId)}); saveData(); closeSheet(); ST.selCycle=null; goScreen('cust'); renderCust(); toast('Đã xoá chu kỳ',false); }
 function confirmClone(custId,cyId){
-  const cust=ST.customers.find(c=>c.id===custId); const cy=cust?.cycles.find(x=>x.id===cyId); if(!cy)return;
-  const nm=cy.month===12?1:cy.month+1; const ny=cy.month===12?cy.year+1:cy.year;
-  openSheet('🔁 Clone chu kỳ',`<p style="font-weight:700;font-size:15px;margin-bottom:8px">Tạo ${MONTHS[nm-1]} ${ny} từ ${MONTHS[cy.month-1]} ${cy.year}?</p><p style="font-size:13px;color:var(--text2);margin-bottom:20px">${cy.cards.length} thẻ sẽ được sao chép, trạng thái reset về chưa đáo.</p><div class="confirm-row"><button class="btn-cancel" onclick="closeSheet()">Huỷ</button><button class="btn-ok" onclick="doClone('${custId}','${cyId}')">🔁 Tạo chu kỳ mới</button></div>`);
+const cust=ST.customers.find(c=>c.id===custId); const cy=cust?.cycles.find(x=>x.id===cyId); if(!cy)return;
+const nm=cy.month===12?1:cy.month+1; const ny=cy.month===12?cy.year+1:cy.year;
+openSheet('🔁 Clone chu kỳ',`<p style="font-weight:700;font-size:15px;margin-bottom:8px">Tạo ${MONTHS[nm-1]} ${ny} từ ${MONTHS[cy.month-1]} ${cy.year}?</p><p style="font-size:13px;color:var(--text2);margin-bottom:20px">${cy.cards.length} thẻ sẽ được sao chép, trạng thái reset về chưa đáo.</p><div class="confirm-row"><button class="btn-cancel" onclick="closeSheet()">Huỷ</button><button class="btn-ok" onclick="doClone('${custId}','${cyId}')">🔁 Tạo chu kỳ mới</button></div>`);
 }
 function doClone(custId,cyId){
-  const cust=ST.customers.find(c=>c.id===custId); const cy=cust?.cycles.find(x=>x.id===cyId); if(!cy)return;
-  const nm=cy.month===12?1:cy.month+1; const ny=cy.month===12?cy.year+1:cy.year;
-  const newCy={id:uid(),month:nm,year:ny,note:'',cards:cy.cards.map(c=>({...c,id:uid(),daDaoXong:false,khachDaThanhToan:false}))};
-  ST.customers=ST.customers.map(c=>c.id!==custId?c:{...c,cycles:[...c.cycles,newCy]});
-  saveData(); closeSheet(); toast(`Tạo ${MONTHS[nm-1]} ${ny} thành công ✓`);
-  if(ST.screen==='cust')renderCust(); else{ST.selCycle=newCy.id;updateTopbar();renderCycleScreen();}
+const cust=ST.customers.find(c=>c.id===custId); const cy=cust?.cycles.find(x=>x.id===cyId); if(!cy)return;
+const nm=cy.month===12?1:cy.month+1; const ny=cy.month===12?cy.year+1:cy.year;
+const newCy={id:uid(),month:nm,year:ny,note:'',cards:cy.cards.map(c=>({...c,id:uid(),daDaoXong:false,khachDaThanhToan:false}))};
+ST.customers=ST.customers.map(c=>c.id!==custId?c:{...c,cycles:[...c.cycles,newCy]});
+saveData(); closeSheet(); toast(`Tạo ${MONTHS[nm-1]} ${ny} thành công ✓`);
+if(ST.screen==='cust')renderCust(); else{ST.selCycle=newCy.id;updateTopbar();renderCycleScreen();}
 }
 
 // ══════════════════════════════════════════════
 // CARD MODAL
 // ══════════════════════════════════════════════
 function openCardModal(cardId){
-  const cust=getCust(),cy=getCycle(); if(!cust||!cy)return;
-  const card=cardId?cy.cards.find(c=>c.id===cardId):null; const isNew=!card; const selLogo=card?.logo||'TCB';
-  const lg=LOGOS.map(l=>`<button class="lbtn${selLogo===l?' sel':''}" style="${selLogo===l?'background:'+(LOGO_BG[l]||'#555')+';color:#fff;':''}" onclick="pickLogo('${l}')">${l}</button>`).join('');
-  openSheet(isNew?'➕ Thêm thẻ mới':'✏️ Sửa thẻ',`
-    <div class="mf"><label>Tên ngân hàng</label><input id="cf2-bank" value="${esc(card?.bank||'')}" placeholder="Techcombank..."/></div>
-    <div class="mf"><label>Logo / Ký hiệu</label><div class="logo-grid">${lg}</div></div>
-    <input type="hidden" id="cf2-logo" value="${selLogo}"/>
-    <div class="grid2">
-      <div class="mf"><label>Hạn mức (Tr)</label><input id="cf2-limit" type="number" value="${card?.limit||0}" oninput="updFee()"/></div>
-      <div class="mf"><label>Tiền đáo (Tr)</label><input id="cf2-dao" type="number" value="${card?.dao||0}" oninput="updFee()"/></div>
-      <div class="mf"><label>Lãi suất (%/tháng)</label><input id="cf2-rate" type="number" step="0.1" value="${card?.rate||1.6}" oninput="updFee()"/></div>
-      <div class="mf" style="display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:14px">
-        <div style="font-size:11px;color:var(--text2);margin-bottom:3px">Phí dự kiến</div>
-        <div class="fee-preview" id="fee-prev">${fmtVND(fee(card?.dao||0,card?.rate||1.6))}</div>
-      </div>
-      <div class="mf"><label>Ngày sao kê</label><input id="cf2-sk" value="${esc(card?.saoKe||'Ngày 20')}"/></div>
-      <div class="mf"><label>Ngày thanh toán</label><input id="cf2-tt" value="${esc(card?.thanhToan||'Ngày 5')}"/></div>
-    </div>
-    ${!isNew?`<button class="del-btn" onclick="confirmDelCard('${cy.id}','${card.id}','${esc(card.bank)}')">🗑 Xoá thẻ này</button>`:''}
-    <button class="save-btn" onclick="saveCard('${cust.id}','${cy.id}','${cardId||''}')">💾 ${isNew?'Thêm thẻ':'Lưu thẻ'}</button>`);
+const cust=getCust(),cy=getCycle(); if(!cust||!cy)return;
+const card=cardId?cy.cards.find(c=>c.id===cardId):null; const isNew=!card; const selLogo=card?.logo||'TCB';
+const lg=LOGOS.map(l=>`<button class="lbtn${selLogo===l?' sel':''}" style="${selLogo===l?'background:'+(LOGO_BG[l]||'#555')+';color:#fff;':''}" onclick="pickLogo('${l}')">${l}</button>`).join('');
+openSheet(isNew?'➕ Thêm thẻ mới':'✏️ Sửa thẻ',`
+<div class="mf"><label>Tên ngân hàng</label><input id="cf2-bank" value="${esc(card?.bank||'')}" placeholder="Techcombank..."/></div>
+<div class="mf"><label>Logo / Ký hiệu</label><div class="logo-grid">${lg}</div></div>
+<input type="hidden" id="cf2-logo" value="${selLogo}"/>
+<div class="grid2">
+<div class="mf"><label>Hạn mức (Tr)</label><input id="cf2-limit" type="number" value="${card?.limit||0}" oninput="updFee()"/></div>
+<div class="mf"><label>Tiền đáo (Tr)</label><input id="cf2-dao" type="number" value="${card?.dao||0}" oninput="updFee()"/></div>
+<div class="mf"><label>Lãi suất (%/tháng)</label><input id="cf2-rate" type="number" step="0.1" value="${card?.rate||1.6}" oninput="updFee()"/></div>
+<div class="mf" style="display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:14px">
+<div style="font-size:11px;color:var(--text2);margin-bottom:3px">Phí dự kiến</div>
+<div class="fee-preview" id="fee-prev">${fmtVND(fee(card?.dao||0,card?.rate||1.6))}</div>
+</div>
+<div class="mf"><label>Ngày sao kê</label><input id="cf2-sk" value="${esc(card?.saoKe||'Ngày 20')}"/></div>
+<div class="mf"><label>Ngày thanh toán</label><input id="cf2-tt" value="${esc(card?.thanhToan||'Ngày 5')}"/></div>
+</div>
+${!isNew?`<button class="del-btn" onclick="confirmDelCard('${cy.id}','${card.id}','${esc(card.bank)}')">🗑 Xoá thẻ này</button>`:''}
+<button class="save-btn" onclick="saveCard('${cust.id}','${cy.id}','${cardId||''}')">💾 ${isNew?'Thêm thẻ':'Lưu thẻ'}</button>`);
 }
 function pickLogo(l){ document.getElementById('cf2-logo').value=l; document.querySelectorAll('.lbtn').forEach(b=>{const s=b.textContent===l;b.classList.toggle('sel',s);b.style.background=s?(LOGO_BG[l]||'#555'):'';b.style.color=s?'#fff':'';});updFee(); }
 function updFee(){ const dao=parseFloat(document.getElementById('cf2-dao')?.value)||0; const rate=parseFloat(document.getElementById('cf2-rate')?.value)||0; const el=document.getElementById('fee-prev'); if(el)el.textContent=fmtVND(fee(dao,rate)); }
 function saveCard(custId,cyId,cardId){
-  const bank=document.getElementById('cf2-bank').value.trim();
-  if(!bank)return toast('Vui lòng nhập tên ngân hàng',false);
-  const oldCard=cardId?getCycle()?.cards.find(c=>c.id===cardId):null;
-  const newCard={id:cardId||uid(),bank,logo:document.getElementById('cf2-logo').value,limit:parseFloat(document.getElementById('cf2-limit').value)||0,dao:parseFloat(document.getElementById('cf2-dao').value)||0,rate:parseFloat(document.getElementById('cf2-rate').value)||0,saoKe:document.getElementById('cf2-sk').value,thanhToan:document.getElementById('cf2-tt').value,daDaoXong:oldCard?.daDaoXong||false,khachDaThanhToan:oldCard?.khachDaThanhToan||false};
-  ST.customers=ST.customers.map(c=>{ if(c.id!==custId)return c; return{...c,cycles:c.cycles.map(cy=>{ if(cy.id!==cyId)return cy; if(cardId)return{...cy,cards:cy.cards.map(cd=>cd.id===cardId?newCard:cd)}; return{...cy,cards:[...cy.cards,newCard]}; })}; });
-  saveData(); closeSheet(); toast(cardId?'Lưu thẻ thành công ✓':'Thêm thẻ thành công ✓'); renderCycleScreen();
+const bank=document.getElementById('cf2-bank').value.trim();
+if(!bank)return toast('Vui lòng nhập tên ngân hàng',false);
+const oldCard=cardId?getCycle()?.cards.find(c=>c.id===cardId):null;
+const newCard={id:cardId||uid(),bank,logo:document.getElementById('cf2-logo').value,limit:parseFloat(document.getElementById('cf2-limit').value)||0,dao:parseFloat(document.getElementById('cf2-dao').value)||0,rate:parseFloat(document.getElementById('cf2-rate').value)||0,saoKe:document.getElementById('cf2-sk').value,thanhToan:document.getElementById('cf2-tt').value,daDaoXong:oldCard?.daDaoXong||false,khachDaThanhToan:oldCard?.khachDaThanhToan||false};
+ST.customers=ST.customers.map(c=>{ if(c.id!==custId)return c; return{...c,cycles:c.cycles.map(cy=>{ if(cy.id!==cyId)return cy; if(cardId)return{...cy,cards:cy.cards.map(cd=>cd.id===cardId?newCard:cd)}; return{...cy,cards:[...cy.cards,newCard]}; })}; });
+saveData(); closeSheet(); toast(cardId?'Lưu thẻ thành công ✓':'Thêm thẻ thành công ✓'); renderCycleScreen();
 }
 function confirmDelCard(cyId,cardId,bank){ openSheet('⚠️ Xác nhận',`<p style="font-weight:700;font-size:15px;margin-bottom:8px">Xoá thẻ "${bank}"?</p><div class="confirm-row"><button class="btn-cancel" onclick="closeSheet()">Huỷ</button><button class="btn-danger" onclick="delCard('${cyId}','${cardId}')">🗑 Xoá thẻ</button></div>`); }
 function delCard(cyId,cardId){ const cust=getCust(); if(!cust)return; ST.customers=ST.customers.map(c=>c.id!==cust.id?c:{...c,cycles:c.cycles.map(cy=>cy.id!==cyId?cy:{...cy,cards:cy.cards.filter(cd=>cd.id!==cardId)})}); saveData(); closeSheet(); toast('Đã xoá thẻ',false); renderCycleScreen(); }
