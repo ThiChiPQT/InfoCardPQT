@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<meta name="apple-mobile-web-app-title" content="QT Manager"/>
+<meta name="apple-mobile-web-app-title" content="PQT Manager Card"/>
 <meta name="theme-color" content="#0d0b20"/>
-<title>Quang Trung Manager Card</title>
+<title>PQT Manager Card</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <!-- Firebase compat (works everywhere incl Safari iOS) -->
@@ -117,7 +117,31 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:#
 .cp-dot.new{background:var(--blue);border-color:var(--blue)}
 .cp-dot.ok{background:var(--green);border-color:var(--green)}
 .step-label{font-size:13px;color:var(--text2);text-align:center;font-weight:600}
-#loading{position:fixed;inset:0;background:#0d0b20;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:500;gap:14px}
+.ft-wrap{background:linear-gradient(160deg,#0d0b20,#1a1840);border-top:1px solid rgba(255,255,255,0.07);overflow:hidden;font-family:var(--font);margin-top:8px}
+.ft-service{padding:18px 16px;border-bottom:1px solid rgba(255,255,255,0.07)}
+.ft-badge{display:inline-flex;align-items:center;background:rgba(247,151,30,0.15);border:1px solid rgba(247,151,30,0.3);border-radius:20px;padding:4px 12px;margin-bottom:10px}
+.ft-badge span{font-size:11px;font-weight:700;color:#ffd200;letter-spacing:.5px}
+.ft-service-title{font-size:15px;font-weight:800;color:#fff;margin-bottom:6px}
+.ft-service-desc{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.6;margin-bottom:14px}
+.ft-cta{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(90deg,#f7971e,#ffd200);border-radius:10px;padding:9px 16px;text-decoration:none}
+.ft-cta span{font-size:13px;font-weight:800;color:#1a1a2e}
+.ft-social{display:flex;gap:8px;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.ft-soc-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 6px;border-radius:11px;text-decoration:none;border:1px solid rgba(255,255,255,0.08)}
+.ft-soc-btn.zalo{background:rgba(0,104,255,0.12)}
+.ft-soc-btn.fb{background:rgba(24,119,242,0.12)}
+.ft-soc-btn.tt{background:rgba(255,45,85,0.10)}
+.ft-soc-btn span{font-size:11px;font-weight:700}
+.ft-soc-btn.zalo span{color:#4e8fff}
+.ft-soc-btn.fb span{color:#4e9cf5}
+.ft-soc-btn.tt span{color:#ff4e6a}
+.ft-soc-icon{width:18px;height:18px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0}
+.ft-soc-icon.zalo{background:#0068ff;color:#fff}
+.ft-soc-icon.fb{background:#1877f2;color:#fff}
+.ft-soc-icon.tt{background:#ff2d55;color:#fff}
+.ft-copy{padding:14px 16px;text-align:center}
+.ft-copy-app{font-size:12px;font-weight:700;color:rgba(255,255,255,0.35);margin-bottom:3px}
+.ft-copy-main{font-size:11px;color:rgba(255,255,255,0.2);line-height:1.7}
+.ft-copy-contact{margin-top:6px;font-size:11px;color:rgba(255,210,0,0.45)}
 .spin{width:36px;height:36px;border:3px solid rgba(255,210,0,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes blobMove{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,-20px) scale(1.05)}}
@@ -138,7 +162,7 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:#
 <div class="blob blob2"></div>
 <div id="topbar" style="display:none">
 <button class="ib" id="btn-back" style="display:none;font-size:22px;font-weight:700">‹</button>
-<span id="topbar-title">Manager Card 💳</span>
+<span id="topbar-title">PQT Manager Card 💳</span>
 <button class="ib" id="btn-add" style="background:rgba(247,151,30,.2);color:var(--gold);font-weight:800;font-size:18px">👤</button>
 <button class="ib" id="btn-theme" title="Sáng/Tối">🌙</button>
 <button class="ib" id="btn-refresh" title="Làm mới">🔄</button>
@@ -162,6 +186,7 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:#
 <div></div><button class="key" onclick="tap('0')">0</button><button class="key dim" onclick="delPin()">⌫</button>
 </div>
 <button class="login-btn" id="login-btn" onclick="doLogin()">🔓 ĐĂNG NHẬP</button>
+<div id="login-footer" style="width:100%;margin-top:32px"></div>
 </div>
 <div id="main" style="display:none">
 <div id="sc-home" class="screen"></div>
@@ -181,6 +206,28 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:#
 <div id="toast"></div>
 
 <script>
+// ══════════════════════════════════════════════
+// FOOTER
+// ══════════════════════════════════════════════
+const FOOTER_HTML = `<div class="ft-wrap">
+<div class="ft-service">
+<div class="ft-badge"><span>Dịch vụ</span></div>
+<div class="ft-service-title">Xây Dựng Thẻ Tín Dụng Hạn Mức Cao</div>
+<div class="ft-service-desc">Tư vấn &amp; hỗ trợ xây dựng hồ sơ thẻ tín dụng hạn mức cao tại các ngân hàng uy tín. Nhanh chóng — Uy tín — Hiệu quả.</div>
+<a class="ft-cta" href="https://zalo.me/0799102769"><span>Liên hệ tư vấn ngay</span></a>
+</div>
+<div class="ft-social">
+<a class="ft-soc-btn zalo" href="https://zalo.me/0799102769"><div class="ft-soc-icon zalo">Z</div><span>Zalo</span></a>
+<a class="ft-soc-btn fb" href="https://www.facebook.com/livesfxcompany"><div class="ft-soc-icon fb">f</div><span>Facebook</span></a>
+<a class="ft-soc-btn tt" href="https://www.tiktok.com/@thanhphohochiminh2024"><div class="ft-soc-icon tt">T</div><span>TikTok</span></a>
+</div>
+<div class="ft-copy">
+<div class="ft-copy-app">PQT Manager Card v1.0</div>
+<div class="ft-copy-main">© 2026 Quang Trung Build Credit Card. All rights reserved.</div>
+<div class="ft-copy-contact">Liên hệ mua bản quyền: 0799.102.769</div>
+</div>
+</div>`;
+
 // ══════════════════════════════════════════════
 // FIREBASE INIT
 // ══════════════════════════════════════════════
@@ -222,6 +269,7 @@ function showApp() {
   document.getElementById('app').style.display = 'block';
   applyTheme();
   document.getElementById('login').style.display = 'flex';
+  document.getElementById('login-footer').innerHTML = FOOTER_HTML;
 }
 
 function saveData() {
@@ -333,7 +381,7 @@ document.getElementById('sc-'+s).scrollTop=0;
 function updateTopbar(){
 const c=getCust(),cy=getCycle();
 document.getElementById('topbar-title').textContent=
-ST.screen==='home'?'Manager Card 💳':
+ST.screen==='home'?'PQT Manager Card 💳':
 ST.screen==='cust'?(c?.name||''):
 `${MONTHS[(cy?.month||1)-1]} ${cy?.year||''}`;
 document.getElementById('btn-back').style.display=ST.screen==='home'?'none':'flex';
@@ -433,7 +481,7 @@ ${lc?`<div class="row" style="margin-bottom:5px;font-size:12px"><span style="fle
 </div>`;
 });
 }
-el.innerHTML=h;
+el.innerHTML=h+FOOTER_HTML;
 }
 function selCust(id){ ST.selCust=id; goScreen('cust'); renderCust(); }
 
