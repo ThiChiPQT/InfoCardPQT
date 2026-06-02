@@ -191,10 +191,11 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:#
 </div>
 <div id="login-footer" style="width:100%;margin-top:auto"></div>
 </div>
-<div id="main" style="display:none">
-<div id="sc-home" class="screen"></div>
+<div id="main" style="display:none;flex-direction:column;min-height:calc(100vh - 60px);min-height:calc(-webkit-fill-available - 60px)">
+<div id="sc-home" class="screen" style="flex:1"></div>
 <div id="sc-cust" class="screen" style="display:none"></div>
 <div id="sc-cycle" class="screen" style="display:none"></div>
+<div id="home-footer" style="display:none"></div>
 </div>
 </div>
 
@@ -368,7 +369,7 @@ setTimeout(()=>pd.style.animation='',500);
 pin=''; syncDots(); document.getElementById('login-btn').className='login-btn'; return;
 }
 document.getElementById('login').style.display='none';
-document.getElementById('main').style.display='block';
+document.getElementById('main').style.display='flex';
 document.getElementById('topbar').style.display='flex';
 goScreen('home'); renderHome();
 }
@@ -378,6 +379,8 @@ goScreen('home'); renderHome();
 // ══════════════════════════════════════════════
 function goScreen(s){
 ['home','cust','cycle'].forEach(x=>document.getElementById('sc-'+x).style.display=x===s?'block':'none');
+const hf=document.getElementById('home-footer');
+if(hf) hf.style.display=s==='home'?'block':'none';
 ST.screen=s; updateTopbar();
 document.getElementById('sc-'+s).scrollTop=0;
 }
@@ -484,7 +487,8 @@ ${lc?`<div class="row" style="margin-bottom:5px;font-size:12px"><span style="fle
 </div>`;
 });
 }
-el.innerHTML=h+`<div style="margin-top:24px">`+FOOTER_HTML+`</div>`;
+el.innerHTML=h;
+document.getElementById('home-footer').innerHTML=FOOTER_HTML;
 }
 function selCust(id){ ST.selCust=id; goScreen('cust'); renderCust(); }
 
