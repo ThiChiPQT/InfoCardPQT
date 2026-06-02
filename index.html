@@ -32,7 +32,8 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;font-family:var(--font)}
 ::-webkit-scrollbar{display:none}
-html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:linear-gradient(160deg,#0d0b20,#1a1840,#0d1a2e)}
+html{background:#0d0b20}
+body{height:100%;height:-webkit-fill-available;overflow:hidden;background:linear-gradient(160deg,#0d0b20,#1a1840,#0d1a2e);background-attachment:fixed}
 
 /* FIX iOS: dùng -webkit-fill-available thay 100vh */
 #app{
@@ -118,7 +119,7 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:l
 .cp-dot.new{background:var(--blue);border-color:var(--blue)}
 .cp-dot.ok{background:var(--green);border-color:var(--green)}
 .step-label{font-size:13px;color:var(--text2);text-align:center;font-weight:600}
-.ft-wrap{background:transparent;border-top:1px solid rgba(255,255,255,0.06);overflow:hidden;font-family:var(--font);padding-bottom:env(safe-area-inset-bottom,16px)}
+.ft-wrap{background:transparent;border-top:1px solid rgba(255,255,255,0.06);overflow:hidden;font-family:var(--font);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 16px)}
 .ft-service{padding:18px 16px;border-bottom:1px solid rgba(255,255,255,0.06)}
 .ft-badge{display:inline-flex;align-items:center;background:rgba(247,151,30,0.15);border:1px solid rgba(247,151,30,0.3);border-radius:20px;padding:4px 12px;margin-bottom:10px}
 .ft-badge span{font-size:11px;font-weight:700;color:#ffd200;letter-spacing:.5px}
