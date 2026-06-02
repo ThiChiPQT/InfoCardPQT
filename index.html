@@ -48,7 +48,7 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:#
 .blob2{width:220px;height:220px;background:radial-gradient(circle,rgba(96,165,250,0.10),transparent 70%);bottom:100px;left:-50px;animation-direction:reverse;animation-duration:12s}
 #topbar{position:sticky;top:0;z-index:50;background:var(--topbar);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--border);padding:env(safe-area-inset-top,44px) 14px 11px;display:flex;align-items:center;gap:8px}
 #topbar-title{flex:1;font-weight:800;font-size:17px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.screen{padding:12px 14px 80px;position:relative;z-index:1;animation:fadeUp .25s ease}
+.screen{padding:12px 14px 20px;position:relative;z-index:1;animation:fadeUp .25s ease}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:14px;margin-bottom:11px;transition:transform .15s}
 .card.clickable{cursor:pointer}.card.clickable:active{transform:scale(.985)}
 .card.done{background:rgba(74,222,128,0.08);border-color:rgba(74,222,128,0.25)}
@@ -86,7 +86,8 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:#
 .swatches{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
 .swatch{width:30px;height:30px;border-radius:9px;border:2px solid transparent;cursor:pointer;transition:all .15s}
 .swatch.sel{border-color:#fff;transform:scale(1.18)}
-#login{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100%;min-height:-webkit-fill-available;padding:0 28px;position:relative;z-index:1}
+#login{display:flex;flex-direction:column;align-items:center;min-height:100%;min-height:-webkit-fill-available;padding:0;position:relative;z-index:1;overflow-y:auto}
+#login-inner{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 28px;width:100%}
 .login-logo{width:66px;height:66px;background:linear-gradient(135deg,var(--orange),var(--gold));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 28px rgba(247,151,30,.35);margin:0 auto 12px}
 .pin-dots{display:flex;justify-content:center;gap:16px;margin-bottom:24px}
 .pin-dot{width:14px;height:14px;border-radius:50%;background:var(--input);border:1.5px solid var(--border);transition:background .15s}
@@ -117,12 +118,12 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:#
 .cp-dot.new{background:var(--blue);border-color:var(--blue)}
 .cp-dot.ok{background:var(--green);border-color:var(--green)}
 .step-label{font-size:13px;color:var(--text2);text-align:center;font-weight:600}
-.ft-wrap{background:linear-gradient(160deg,#0d0b20,#1a1840);border-top:1px solid rgba(255,255,255,0.07);overflow:hidden;font-family:var(--font);margin-top:8px}
-.ft-service{padding:18px 16px;border-bottom:1px solid rgba(255,255,255,0.07)}
+.ft-wrap{background:transparent;border-top:1px solid rgba(255,255,255,0.06);overflow:hidden;font-family:var(--font);padding-bottom:env(safe-area-inset-bottom,16px)}
+.ft-service{padding:18px 16px;border-bottom:1px solid rgba(255,255,255,0.06)}
 .ft-badge{display:inline-flex;align-items:center;background:rgba(247,151,30,0.15);border:1px solid rgba(247,151,30,0.3);border-radius:20px;padding:4px 12px;margin-bottom:10px}
 .ft-badge span{font-size:11px;font-weight:700;color:#ffd200;letter-spacing:.5px}
-.ft-service-title{font-size:15px;font-weight:800;color:#fff;margin-bottom:6px}
-.ft-service-desc{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.6;margin-bottom:14px}
+.ft-service-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px}
+.ft-service-desc{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:14px}
 .ft-cta{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(90deg,#f7971e,#ffd200);border-radius:10px;padding:9px 16px;text-decoration:none}
 .ft-cta span{font-size:13px;font-weight:800;color:#1a1a2e}
 .ft-social{display:flex;gap:8px;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.06)}
@@ -139,8 +140,8 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:#
 .ft-soc-icon.fb{background:#1877f2;color:#fff}
 .ft-soc-icon.tt{background:#ff2d55;color:#fff}
 .ft-copy{padding:14px 16px;text-align:center}
-.ft-copy-app{font-size:12px;font-weight:700;color:rgba(255,255,255,0.35);margin-bottom:3px}
-.ft-copy-main{font-size:11px;color:rgba(255,255,255,0.2);line-height:1.7}
+.ft-copy-app{font-size:12px;font-weight:700;color:var(--text3);margin-bottom:3px}
+.ft-copy-main{font-size:11px;color:var(--text3);line-height:1.7}
 .ft-copy-contact{margin-top:6px;font-size:11px;color:rgba(255,210,0,0.45)}
 .spin{width:36px;height:36px;border:3px solid rgba(255,210,0,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -169,6 +170,7 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:#
 <button class="ib" id="btn-menu" title="Cài đặt">⋯</button>
 </div>
 <div id="login">
+<div id="login-inner">
 <div style="text-align:center;margin-bottom:28px">
 <div class="login-logo">💳</div>
 <h2 style="font-size:20px;font-weight:900">Quang Trung</h2>
@@ -186,7 +188,8 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:#
 <div></div><button class="key" onclick="tap('0')">0</button><button class="key dim" onclick="delPin()">⌫</button>
 </div>
 <button class="login-btn" id="login-btn" onclick="doLogin()">🔓 ĐĂNG NHẬP</button>
-<div id="login-footer" style="width:100%;margin-top:32px"></div>
+</div>
+<div id="login-footer" style="width:100%;margin-top:auto"></div>
 </div>
 <div id="main" style="display:none">
 <div id="sc-home" class="screen"></div>
@@ -481,7 +484,7 @@ ${lc?`<div class="row" style="margin-bottom:5px;font-size:12px"><span style="fle
 </div>`;
 });
 }
-el.innerHTML=h+FOOTER_HTML;
+el.innerHTML=h+`<div style="margin-top:24px">`+FOOTER_HTML+`</div>`;
 }
 function selCust(id){ ST.selCust=id; goScreen('cust'); renderCust(); }
 
